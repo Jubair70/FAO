@@ -1,0 +1,336 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+
+    <link href="/static/css/datepicker.css" rel="stylesheet">
+    <head>
+        <title>
+            {% block title %} FAO {% endblock %}
+        </title>
+    </head>
+
+{% endblock %}
+
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Summary</div>
+        </div>
+        <div class="portlet-body">
+        <div id = "all_geo_id"  hidden></div>
+        
+            <div class="row" {% if all_geo_id.0 != 1 %}hidden {% endif %} >
+        
+        <div class="col-md-3">
+                    <div class="form-group">
+
+                        <label>Division: </label>
+                        <select class="form-control" name="division" id="division" onclick="load_district(this)">
+                            <option value="">Select One</option>
+                            <option value="40">Khulna</option>
+                                        <option value="20">Chittagong</option>
+                                        <option value="60">Sylhet</option>
+                        </select>
+                    </div>
+                </div>
+        <div class="col-md-3">
+                    <div class="form-group">
+                        <label>District: </label>
+                        <select class="form-control" name="district" id="district" onclick="load_upazilla(this)">
+                            <option value="">Select One</option>
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Upazilla: </label>
+                        <select class="form-control" name="upazilla" id="upazilla">
+                            <option value="">Select One</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button class="btn btn-info pull-left" id="generate_report" name="generate_report" style="margin-top: 24px;"
+                                data-original-title=""
+                                title="">Generate Report
+                        </button>
+                    </div>
+                
+            </div>
+
+        </div>
+        
+        
+
+            <div id="container"></div>
+            <table id="farm_assessment_table" class="table table-bordered table-striped  nowrap">
+                <thead>
+
+                <tr>
+                    <th class="td-center">Activity</th>
+                    <th class="td-center">This Day</th>
+                    <th class="td-center">This Month</th>
+                    <th class="td-center">This Year</th>
+                    <th class="td-center">Last Year</th>
+                    <th class="td-center">Total</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for each in json_data %}
+                    <tr>
+                        {% for key in col_name %}
+                            <td>
+                                {% if key in each %}
+                                    {{ each | keyvalue:key  }}
+
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a info, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script>
+
+
+        // $(document).ready(function () {
+
+        var table = $('#farm_assessment_table').DataTable({"info": false,scrollX:true,scrollY:'50vh',paging: false,ordering: false,scrollCollapse: true,searching:false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        filename: "Submission Count",
+                        title: "",
+                        text: "<strong>Export</strong>",
+                        extend: 'excelHtml5'
+                    },
+                    {
+                        filename: "Submission Count",
+                        title: "",
+                        text: "<strong>Print</strong>",
+                        extend: 'print'
+                    }
+                ]});
+        // });
+
+
+        // Setup - add a text input to each footer cell
+
+
+        $('.delete-item').on('click', function (e) {
+            var criteria_id = $(this).attr("data-href");
+            $('.btn-ok').attr("href", criteria_id);
+        });
+        if ($('.alert-block').is(':visible')) {
+            window.setTimeout(function () {
+                $(".alert-success").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+
+        function load_district(div) {
+            ajaxcall();
+            div = parseInt(div.value);
+            if (isNaN(parseFloat(div))) {
+                $('#district').html("<option value=\"\">Select One</option>");
+            }
+            else {
+                $.ajax({
+                            url: '/fao_module/getDistricts/',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {'div': div},
+                            success: function (result) {
+                                var html_code = "<option value=\"\">Select One</option>";
+                                for (i = 0; i < result.length; i++) {
+                                    if (result[i].value == 4055 || result[i].value == 2012 || result[i].value == 6091)
+                                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";
+                                }
+                                $('#district').html(html_code);
+                                
+                            }
+                        });
+
+                
+            }
+            $('#upazilla').html("<option value=\"\">Select One</option>");
+
+        }
+
+        function load_upazilla(dist) {
+            ajaxcall();
+            dist = parseInt(dist.value);
+            if (isNaN(parseFloat(dist))) {
+                $('#upazilla').html("<option value=\"\">Select One</option>");
+            }
+            else {
+                 $.ajax({
+                            url: '/fao_module/getUpazilas/',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {'dist': dist},
+                            success: function (result) {
+                                var html_code = "<option value=\"\">Select One</option>";
+                                for (i = 0; i < result.length; i++) {
+                                    if (result[i].value == 1233 || result[i].value == 5586 || result[i].value  == 9135)
+                                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";
+                                }
+                                $('#upazilla').html(html_code);
+                            }
+                        });
+
+                
+            }
+
+        }
+
+
+        function ajaxcall() {
+                    $.ajaxSetup({
+                        beforeSend: function (xhr, settings) {
+                            function getCookie(name) {
+                                var cookieValue = null;
+                                if (document.cookie && document.cookie != '') {
+                                    var cookies = document.cookie.split(';');
+                                    for (var i = 0; i < cookies.length; i++) {
+                                        var cookie = jQuery.trim(cookies[i]);
+                                        // Does this cookie string begin with the name we want?
+                                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                            break;
+                                        }
+                                    }
+                                }
+                                return cookieValue;
+                            }
+
+                            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                // Only send the token to relative URLs i.e. locally.
+                                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                            }
+                        }
+                    });
+                }
+
+
+
+            $('#generate_report').on('click', function () {
+             ajaxcall();
+            table.destroy();
+
+            var division = $('#division option:selected').val();
+            var district = $('#district option:selected').val();
+            var upazilla = $('#upazilla option:selected').val();
+            var all_geo_id = $('#all_geo_id').val();
+            
+            if (division == null)
+                division = ""
+            if (district == null)
+                district = ""
+            if (upazilla == null)
+                upazilla = ""
+
+
+            $.ajax({
+                url: '/fao_module/getCountData/',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'division': division
+                    , 'district': district
+                    , 'upazilla': upazilla
+                    , 'all_geo_id':all_geo_id
+                },
+                beforeSend: function () {
+                    $('#container').show();
+                    $("#container").html('<div class="ui active inverted dimmer">\n' +
+                        '    <div class="ui text loader">Loading</div>\n' +
+                        '  </div>');
+                },
+                success: function (result) {
+                    test_list = JSON.parse( result.test_list);
+                    $('#container').hide();
+                    var tbody = '';
+                    for (var idx in test_list) {
+                        tbody += '<tr><td>' + test_list[idx].form_name + '</td><td>' + test_list[idx].cday + '</td><td>' + test_list[idx].cmonth + '</td><td>' + test_list[idx].cyear + '</td><td>' + test_list[idx].last_yr + '</td><td>' + test_list[idx].total + '</td></tr>';
+                    }
+                    $("#farm_assessment_table").find('tbody').html(tbody);
+                    table = datatable_reinitialize();
+                    
+                }
+            });
+
+
+        });
+
+function datatable_reinitialize() {
+            return $('#farm_assessment_table').DataTable({"info": false,scrollX:true,scrollY:'50vh',paging: false,ordering: false,scrollCollapse: true,searching:false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        filename: "Submission Count",
+                        title: "",
+                        text: "<strong>Export</strong>",
+                        extend: 'excelHtml5'
+                    },
+                    {
+                        filename: "Submission Count",
+                        title: "",
+                        text: "<strong>Print</strong>",
+                        extend: 'print'
+                    }
+                ]});
+}
+        
+        
+    </script>
+{% endblock %}

@@ -1,0 +1,254 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %}  Avian Influenza Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+td{ padding:4px;}
+</style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Avian Influenza Form</div>
+        </div>
+        <div class="portlet-body">
+            <table class="table" width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{#      <tr>#}
+{#        <td align="center" valign="top"><img src="../u2c forms 2nd July/images/pso-logo.png" width="80" height="78" /></td>#}
+{#      </tr>#}
+      <tr>
+        <td align="center" valign="top">BANGLADESH U2C INITIATIVE</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><strong>AVIAN INFLUENZA SAMPLE SUBMISSION FORM</strong></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td style=" border:1x solid #333;"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td><strong>Location information</strong></td>
+        <td><strong>Reporting Unit: Village/Farm</strong></td>
+        <td>&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #333;">
+           <tr>
+            <td style="border-bottom:1px solid #333;"> INVESTIGATION ID (copy from AI Investigation Form and write here):  </td>
+          <td style="border-bottom:1px solid #333;"><strong>{{ data.investigation_id  }}</strong> </td>
+          <td style="border-bottom:1px solid #333;">&nbsp; </td>
+          <td style="border-bottom:1px solid #333;">&nbsp; </td>
+          </tr>
+
+          <tr>
+            <td style="border-right:1px solid #333;">*1.  Date sample collected <em>(dd-mm-yyyy)</em> &nbsp;&nbsp;</td>
+            <td style="border-right:1px solid #333;">*2.  Division(<em>block letters)</em>&nbsp;&nbsp;</td>
+            <td style="border-right:1px solid #333;">*3.  District(<em>block letters)</em>&nbsp;&nbsp;</td>
+            <td>*4. Upazila(<em>block  letters)</em>&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong>{{ data.date_sample_collected }}</strong></td>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong>{{ data.division }}</strong></td>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong>{{ data.district }}</strong></td>
+            <td style="border-bottom:1px solid #333;">&nbsp; <strong>{{ data.upazila }}</strong></td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid #333;">*5.  Union <em>(block  letters)</em>&nbsp;&nbsp;</td>
+            <td colspan="2" style="border-right:1px solid #333;">6. Mouza <em>(block letters)(optional)</em>&nbsp;&nbsp;</td>
+            <td>*7.  Village <em>(block letters)</em>&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid #333;"><strong>{{ data.xunion }}</strong></td>
+            <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.mouza }}</strong></td>
+            <td>&nbsp;<strong>{{ data.village }}</strong>   </td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid #333;border-top:1px solid #333;">*8.  Name of contact person <em>(block letters)</em>&nbsp;&nbsp;</td>
+            <td colspan="2" align="left" valign="top" style="border-top:1px solid #333;border-right:1px solid #333;">*10.  Phone number of the contact person  </td>
+            <td align="left" valign="top" style="border-top:1px solid #333;">*11. Sex </td>
+          </tr>
+          <tr>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong>{{ data.contact_person_name }}</strong></td>
+            <td colspan="2" rowspan="3" style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;   <strong>{{ data.contact_person_mobile }}</strong></td>
+              <td rowspan="3" align="left" valign="top" style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.sex == 'Female' %}checked{% endif %} disabled />Female<br><input type="checkbox"  {% if data.sex == 'Male' %}checked{% endif %} disabled/>Male</td>
+            </tr>
+
+          <tr>
+            <td style="border-right:1px solid #333;">*9.  Title/position  &nbsp;&nbsp;</td>
+            </tr>
+          <tr>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong>{{ data.title_position }}</strong></td>
+            </tr>
+
+
+
+            <td colspan="2" style="border-right:1px solid #333;">12.  Latitude (optional) Decimal Degree<strong> </strong><em>(number)</em>&nbsp;&nbsp;</td>
+            <td colspan="2">13. Longitude (optional) Decimal Degree (number) &nbsp;&nbsp;</td>
+            </tr>
+          <tr>
+            <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.gps_lattitude }}</strong></td>
+            <td colspan="2">&nbsp;<strong>{{ data.gps_longitude }}</strong></td>
+            </tr>
+
+      </tr>
+
+        </table></td>
+      </tr>
+      <tr>
+        <td><strong>Farm identification:</strong></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #333;">
+      <tr>
+      <td rowspan="4" align="left" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">*14.  In what type of production system did the cases occur? (<em>check one</em>)</td>
+      <td rowspan="3" style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.cases_occur_production_system == 'Farm' %}checked{% endif %} disabled />Farm</td>
+      <td rowspan="3" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">Has  a farm assessment been conducted previously?</td>
+      <td rowspan="2" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.has_farm_previously_assessed == 'Yes' %}checked{% endif %} disabled />Yes</td>
+      <td>Approximate  date (<em>dd-mm-yyyy</em>)  </td>
+      </tr>
+      <tr>
+          <td style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.date_sample_collected }}</strong></td>
+      </tr>
+      <tr>
+      <td colspan="2" style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.has_farm_previously_assessed == 'No' %}checked{% endif %} disabled />No</td>
+      </tr>
+
+      <tr>
+      <td style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.cases_occur_production_system == 'Backyard' %}checked{% endif %} disabled />Backyard</td>
+      <td colspan="3"style="border-bottom:1px solid #333;">&nbsp;</td>
+      </tr>
+
+      <tr>
+      <td style="border-right:1px solid #333;">&nbsp;</td>
+      <td colspan="4"><input type="checkbox" {% if data.cases_occur_production_system != 'Backyard' and data.cases_occur_production_system != 'Farm' %}checked{% endif %} disabled />Other, specify <u>{% if data.cases_occur_production_system != 'Backyard' and data.cases_occur_production_system != 'Farm' %}<strong>{{ data.cases_occur_production_system }}</strong>{% endif %}</u></td>
+     </tr>
+
+        </table></td>
+      </tr>
+      <tr>
+    <td>*<strong>Samples collected</strong>:</td>
+ </tr>
+    </table></td>
+  </tr>
+  <tr>
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #333;">
+      <tr>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">15.  Sample source (<em>check one</em>)</td>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Number  of samples collected </td>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Sample  type and description (<em>block letters</em>)</td>
+            <td style="border-bottom:1px solid #333;">Sample  ID (<em>as written on sample tube or  container</em>)</td>
+          </tr>
+      <tr>
+            <td style="border-right:1px solid #333;">Deshi  (backyard) chicken</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.deshi_chicken_sample_number }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.deshi_chicken_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.deshi_chicken_sample_id }}</strong></td>
+          </tr>
+           <tr>
+            <td style="border-right:1px solid #333;">Sonali  chicken</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.sonali_chicken_sample_number }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.sonali_chicken_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.sonali_chicken_sample_id }}</strong></td>
+          </tr>
+           <tr>
+            <td style="border-right:1px solid #333;">Brown  commercial chicken</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.brown_comm_chicken_sample_number }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.brown_comm_chicken_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.brown_comm_sample_id }}</strong></td>
+          </tr>
+           <tr>
+            <td style="border-right:1px solid #333;">White  commercial chicken</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.white_comm_chicken_sample_number }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.white_comm_chicken_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.white_comm_sample_id }}</strong></td>
+          </tr>
+           <tr>
+            <td style="border-right:1px solid #333;">Duck</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.duck_number_sample }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.duck_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.duck_sample_id }}</strong></td>
+          </tr>
+           <tr>
+            <td style="border-right:1px solid #333;">Other  species, specify</td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.other_sample_number }}</strong></td>
+            <td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.other_sample_type_description }}</strong></td>
+            <td>&nbsp;<strong>{{ data.other_sample_id }}</strong></td>
+          </tr>
+
+           <tr>
+            <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;</td>
+            <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;</td>
+            <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;</td>
+            <td style="border-bottom:1px solid #333;">&nbsp;</td>
+          </tr>
+           <tr>
+            <td colspan="2" style="border-right:1px solid #333;">16.  Which laboratory are samples being sent to? (<em>block letters)</em> </td>
+               <td colspan="2" rowspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.laboratory_name_sample_sent_to }}</strong></td>
+            </tr>
+           <tr>
+            <td colspan="2" style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;</td>
+            </tr>
+           <tr>
+            <td>Sample collected by:</td>
+            <td colspan="2" style="border-right:1px solid #333;">&nbsp;</td>
+            <td><strong>Signature:</strong></td>
+          </tr>
+           <tr>
+            <td><strong>Name</strong></td>
+            <td colspan="2" style="border-right:1px solid #333;">&nbsp;</td>
+            <td>&nbsp;<strong>{{ data.sample_collected_by_name }}</strong></td>
+          </tr>
+
+        </table></td>
+      </tr>
+      <tr>
+            <td><strong>For Laboratory Use only</strong></td>
+          </tr>
+    </table></td>
+  </tr>
+  <tr>
+  <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #333;">
+      <tr>
+            <td style="border-right:1px solid #333;">Samples  received in Lab by:</td>
+            <td rowspan="2" valign="bottom" style="border-bottom:1px solid #333;"><strong>Date </strong><em>(dd-mm-yyyy)</em>: </td>
+            <td rowspan="2" style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+            <td><strong>Signature:</strong></td>
+          </tr>
+          <tr>
+            <td style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>Name</strong></td>
+            <td style="border-bottom:1px solid #333;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="border-right:1px solid #333;">Laboratory  sample ID (Requisition) number (<em>block)</em></td>
+            <td colspan="3" >&nbsp;</td>
+            </tr>
+
+        </table></td>
+      </tr>
+     <tr>
+        <td align="center" valign="top"><p align="center"><strong>ATTENTION:</strong> Check that you have all the information required to complete this form before you leave the village.</p></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+        </div>
+    </div>
+
+{% endblock %}
+

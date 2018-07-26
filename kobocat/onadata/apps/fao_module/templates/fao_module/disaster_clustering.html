@@ -1,0 +1,150 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.40.1/mapbox-gl.css' rel='stylesheet'/>
+    <style>
+        .row {
+            margin: 10px;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Disaster Area
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div id='map' style='width: 600px; height: 500px;'></div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block additional-javascript %}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.40.1/mapbox-gl.js'></script>
+    <script type="text/javascript">
+        var start_zoom = 1;
+        mapboxgl.accessToken = 'pk.eyJ1IjoianViYWlyNzAiLCJhIjoiY2o2YWUxZnFjMTBpcTMxbnk3bW9qaGhiYiJ9.Z4xUKQkyzrALVFRNNofvTQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            center: [-103.59179687498357, 40.66995747013945],
+            zoom: 3
+        });
+        map.addControl(new mapboxgl.NavigationControl());
+
+
+        var content = {{ content | safe }};
+        var map_data;
+        for (each in content) {
+            map_data = JSON.parse(content[each]);
+        }
+        console.log(map_data);
+        map.on('load', function () {
+            map.addSource("earthquakes", {
+                type: "geojson",
+                data: map_data,
+                cluster: true,
+                clusterMaxZoom: 14, // Max zoom to cluster points on
+                clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+            });
+
+            map.addLayer({
+                id: "clusters",
+                type: "circle",
+                source: "earthquakes",
+                filter: ["has", "point_count"],
+                paint: {
+                    "circle-color": {
+                        property: "point_count",
+                        type: "interval",
+                        stops: [
+                            [0, "#51bbd6"],
+                            [100, "#f1f075"],
+                            [750, "#f28cb1"],
+                        ]
+                    },
+                    "circle-radius": {
+                        property: "point_count",
+                        type: "interval",
+                        stops: [
+                            [0, 20],
+                            [100, 30],
+                            [750, 40]
+                        ]
+                    }
+                }
+            });
+
+            map.addLayer({
+                id: "cluster-count",
+                type: "symbol",
+                source: "earthquakes",
+                filter: ["has", "point_count"],
+                layout: {
+                    "text-field": "{point_count_abbreviated}",
+                    "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+                    "text-size": 12
+                }
+            });
+
+            map.addLayer({
+                id: "unclustered-point",
+                type: "circle",
+                source: "earthquakes",
+                filter: ["!has", "point_count"],
+                paint: {
+                    "circle-color": "#11b4da",
+                    "circle-radius": 4,
+                    "circle-stroke-width": 1,
+                    "circle-stroke-color": "#fff"
+                }
+            });
+
+            // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+            map.on('click', 'clusters', function (e) {
+
+                map.flyTo({center: e.features[0].geometry.coordinates});
+            });
+
+            // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+            map.on('mouseenter', 'clusters', function () {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'clusters', function () {
+                map.getCanvas().style.cursor = '';
+            });
+
+
+            var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+            });
+
+            map.on('mouseenter', 'unclustered-point', function (e) {
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(e.features[0].geometry.coordinates)
+                    .setHTML("<p ><strong style=\"color: #11b4da\">Primary ID </strong><strong style=\"padding-left:3em\">" + e.features[0].properties["Primary ID"] + "</strong></p><p><strong style=\"color: #11b4da\">Secondary ID </strong><strong style=\"padding-left:1.5em\">" + e.features[0].properties["Secondary ID"] + "</strong></p>")
+                    .addTo(map);
+
+            });
+
+            map.on('mouseleave', 'unclustered-point', function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            });
+        });
+    </script>
+{% endblock %}

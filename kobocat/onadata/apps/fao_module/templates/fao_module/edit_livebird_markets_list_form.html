@@ -1,0 +1,111 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <head>
+
+        <title>
+            {% block title %} Live Bird Market List Form {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Live Bird Market List Form
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <form class="horizontal-form" id="info_form" method="post" action="/fao_module/update_livebird_markets_form/"
+                  enctype="multipart/form-data">
+                <input type="hidden" id="livebird_markets_id" name="livebird_markets_id" value="{{ livebird_markets_id }}">
+                {% csrf_token %}
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Market ID">Market ID:</label>
+                                <input type="text" class="form-control" name="market_id"
+                                       id="market_id" value="{{ market_id }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Market Name">Market Name:</label>
+                                <input type="text" class="form-control" name="market_name"
+                                       id="market_name" value="{{ market_name }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Ward Number">Ward Number:</label>
+                                <input type="number" class="form-control" name="ward_number"
+                                       id="ward_number" value="{{ ward_number }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="City Corporation">City Corporation:</label>
+                                <input type="text" class="form-control" name="city_corp"
+                                       id="city_corp" value="{{ city_corp }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Assigned Officer">Assigned Officer:</label>
+                                <input type="text" class="form-control" name="assigned_officer"
+                                       id="assigned_officer" value="{{ assigned_officer }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger pull-left" id="submit" name="submit" type="submit"
+                                    data-original-title=""
+                                    title="">Submit
+                            </button>
+                            <button onclick="history.go(-1);" style="margin-left:10px;" type="button"
+                                    class="btn btn-info pull-left" data-original-title="" title="">Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/DT_bootstrap.js"></script>
+
+    <script>
+
+
+        if ($('.alert-block').is(':visible')) {
+            window.setTimeout(function () {
+                $(".alert-success").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+    </script>
+{% endblock %}

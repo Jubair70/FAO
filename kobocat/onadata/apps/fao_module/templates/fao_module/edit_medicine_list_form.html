@@ -1,0 +1,165 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <head>
+
+        <title>
+            {% block title %} Medicine List Form {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Medicine List Form
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <form class="horizontal-form" id="info_form" method="post" action="/fao_module/update_medicine_list_form/"
+                  enctype="multipart/form-data">
+                <input type="hidden" id="medicine_id" name="medicine_id" value="{{ medicine_id }}">
+                {% csrf_token %}
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Broad Medicine Group">Broad Medicine Group:</label>
+                                <input type="text" class="form-control" name="broad_medicine_group"
+                                       id="broad_medicine_group"
+                                       value="{{ broad_medicine_group }}" >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Sub-Group">Sub-Group:</label>
+                                <input type="text" class="form-control" name="sub_group"
+                                       id="sub_group" value="{{ sub_group }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Pharmacological Group">Pharmacological Group:</label>
+                                <input type="text" class="form-control" name="pharmacological_group"
+                                       id="pharmacological_group" value="{{ pharmacological_group }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Type">Medicine Type:</label>
+                                <input type="text" class="form-control" name="medicine_type"
+                                       id="medicine_type" value="{{ medicine_type }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Trade Name">Trade Name:</label>
+                                <input type="text" class="form-control" name="trade_name"
+                                       id="trade_name" value="{{ trade_name }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Pac size">Pac size:</label>
+                                <input type="text" class="form-control" name="pac_size"
+                                       id="pac_size" value="{{ pac_size }}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Generic composition">Generic composition:</label>
+                                <input type="text" class="form-control" name="generic_composition"
+                                       id="generic_composition" value="{{ generic_composition }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Company Name">Company Name:</label>
+                                <input type="text" class="form-control" name="company_name"
+                                       id="company_name" value="{{ company_name }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Pharmacopia Name">Pharmacopia Name:</label>
+                                <input type="text" class="form-control" name="pharmacopia_name"
+                                       id="pharmacopia_name" value="{{ pharmacopia_name }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Dosage">Dosage:</label>
+                                <input type="text" class="form-control" name="dosage"
+                                       id="dosage" value="{{ dosage }}"
+                                       >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger pull-left" id="submit" name="submit" type="submit"
+                                    data-original-title=""
+                                    title="">Submit
+                            </button>
+                            <button onclick="history.go(-1);" style="margin-left:10px;" type="button"
+                                    class="btn btn-info pull-left" data-original-title="" title="">Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/DT_bootstrap.js"></script>
+
+    <script>
+
+
+        if ($('.alert-block').is(':visible')) {
+            window.setTimeout(function () {
+                $(".alert-success").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <head>
+        <title>
+            {% block title %} Add Organization {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Add Organization
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <form class=" ui form horizontal-form" id="user_form" method="post" action="/usermodule/add-organization/"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class=" form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ organization_form.organization.id_for_label }}">Organization:</label>
+                                <input type="text" name="{{ organization_form.organization.name }}"
+                                       class="form-control" required>
+                                <span class="help-block">{{ organization_form.organization.errors.as_text }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="ui-widget form-group field">
+                                <label>Parent Organization:</label>
+                                <select class="ui fluid search dropdown"
+                                        id="{{ organization_form.parent_organization.id_for_label }}"
+                                        name="parent_organization">
+                                    {% for m,n in organization_form.fields.parent_organization.choices %}
+                                        <option value="{{ m }}">{{ n }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Organization Type:</label>
+                                <select id="organization_type"
+                                        name="organization_type" class="form-control" onchange="load_org_type(this)" required>
+                                    <option value="">Select One</option>
+                                    <option value="1">CO</option>
+                                    <option value="2">LO</option>
+                                    <option value="3">LAB</option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div id="area_active"></div>
+
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn red pull-right" id="submit">Submit</button>
+                    <button onclick="history.go(-1);" style="margin-right:10px;" type="button"
+                            class="btn default pull-right">Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script>
+    var div_LO="<div class=\"row\">\n" +
+        "                        <div class=\"col-md-6\">\n" +
+        "                            <div class=\"form-group\">\n" +
+        "                                <label>Catchment Area:</label>\n" +
+        "                                <select id=\"area\" name=\"area\" class=\"form-control\" onchange = \"load_catchment_area(this)\" required>\n" +
+        "                                    <option value=\"\">Select One</option>\n" +
+        "                                    <option value=\"1\">Division</option>\n" +
+        "                                    <option value=\"2\">District</option>\n" +
+        "                                    <option value=\"3\">Upazilla</option>\n" +
+        "                                </select>\n" +
+        "                            </div>\n" +
+        "                        </div>\n" +
+        "                    </div>" +
+        "<div id=\"catchment_area\"></div>";
+
+    var division = "<div class=\"row\">\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"Division\">Division:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"geoid\" id=\"geoid\"\n" +
+        "                                             required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                        {% for div_value,div_name in division %}\n"+
+            "                                        <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"+
+            "                                        {% endfor %}\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                        </div>";
+
+    var division_district = "<div class=\"row\">\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"Division\">Division:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"division\" id=\"division\"\n" +
+        "                                            onchange=\"load_district(this)\" required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                        {% for div_value,div_name in division %}\n"+
+            "                                        <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"+
+            "                                        {% endfor %}\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"District\">District:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"geoid\" id=\"district\" required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                        </div>";
+
+    var division_district_upazilla = "<div class=\"row\">\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"Division\">Division:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"division\" id=\"division\"\n" +
+        "                                            onchange=\"load_district(this)\" required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                        {% for div_value,div_name in division %}\n"+
+            "                                        <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"+
+            "                                        {% endfor %}\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"District\">District:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"district\" id=\"district\" onchange=\"load_upazilla(this)\" required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                            <div class=\"col-md-4\">\n" +
+        "                                <div class=\"form-group\">\n" +
+        "                                    <label for=\"Upazilla\">Upazilla:</label>\n" +
+        "                                    <select class=\"form-control\" name=\"geoid\" id=\"upazilla\" required>\n" +
+        "                                        <option value=\"\">Select One</option>\n" +
+        "                                    </select>\n" +
+        "                                </div>\n" +
+        "                            </div>\n" +
+        "                        </div>";
+
+
+        $('.ui.dropdown').dropdown({fullTextSearch: true, showOnFocus: false, forceSelection: false});
+        
+
+
+        function ajaxcall() {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }
+
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });
+        }
+
+
+        function load_district(div_object) {
+            ajaxcall();
+            div = parseInt(div_object.value);
+            $.ajax({
+                url: '/usermodule/getDistricts/',
+                type: 'POST',
+                dataType: 'json',
+                data: {'div': div},
+                success: function (result) {
+                    var html_code = "<option value=\"\">Select One</option>";
+                    for (i = 0; i < result.length; i++) {
+
+                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";
+                    }
+                    $('#district').html(html_code);
+                    $('#upazilla').html("<option value=\"\">Select One</option>");
+                }
+            });
+        }
+
+
+        function load_upazilla(dist_object) {
+            ajaxcall();
+            dist = parseInt(dist_object.value);
+            $.ajax({
+                url: '/usermodule/getUpazilas/',
+                type: 'POST',
+                dataType: 'json',
+                data: {'dist': dist},
+                success: function (result) {
+                    var html_code = "<option value=\"\">Select One</option>";
+                    for (i = 0; i < result.length; i++) {
+
+                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";
+                    }
+                    $('#upazilla').html(html_code);
+                }
+            });
+        }
+
+        function load_org_type(org_type) {
+            if(parseInt(org_type.value)==2){
+                $('#area_active').html(div_LO);
+            }
+            else
+                $('#area_active').html("");
+
+        }
+
+        function load_catchment_area(catchment_area) {
+            if(parseInt(catchment_area.value)==1){
+                $('#catchment_area').html(division);
+            }
+            else if(parseInt(catchment_area.value)==2){
+                $('#catchment_area').html(division_district);
+            }
+            else if(parseInt(catchment_area.value)==3){
+                $('#catchment_area').html(division_district_upazilla);
+            }
+        }
+
+    </script>
+{% endblock %}

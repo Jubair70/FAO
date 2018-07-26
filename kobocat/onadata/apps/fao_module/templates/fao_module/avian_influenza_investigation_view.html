@@ -1,0 +1,583 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %}  Avian Influenza Investigation Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+        td {
+            padding: 4px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Avian Influenza Investigation Form</div>
+        </div>
+        <div class="portlet-body">
+            <table class="table" width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <table  width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+{#                            <tr>#}
+{#                                <td align="center" valign="top"><img src="../u2c forms 2nd July/images/pso-logo.png"#}
+{#                                                                     width="80"#}
+{#                                                                     height="78"/></td>#}
+{#                            </tr>#}
+                            <tr>
+                                <td align="center" valign="top">BANGLADESH U2C INITIATIVE</td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top"><strong>AVIAN INFLUENZA INVESTIGATION FORM</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top"><strong>Reporting Unit: Village/Farm</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Village/Farm profile</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td>INVESTIGATION ID (as provided by software):</td>
+                                        <td colspan="3">&nbsp;<strong>{{ data.investigation_id }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border-bottom:1px solid #333;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;">FARM ID (if previously assessed):</td>
+                                        <td colspan="3" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.farm_id }}</strong></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">*1. Date Completed
+                                            <em>(dd-mm-yyyy)</em>&nbsp; </td>
+                                        <td style="border-right:1px solid #333;">*2. Division (<em>block letters)</em>&nbsp;
+                                        </td>
+                                        <td style="border-right:1px solid #333;">*3. District (<em>block letters)</em>&nbsp;
+                                        </td>
+                                        <td>*4. Upazila <em>(</em><em>block letters)</em>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.date_completed }}</strong>
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.division }}</strong>
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.district }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.upazila }}</strong></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">*5. Union <em>(block letters)</em>&nbsp;</td>
+                                        <td colspan="2" style="border-right:1px solid #333;">6. Mouza <em>(block
+                                            letters)(optional)</em>&nbsp;</td>
+                                        <td>*7. Village <em>(block letters)</em>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.xunion }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.mouza }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.village }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">*8. Name of farmer <em>(block
+                                            letters)</em>&nbsp;</td>
+                                        <td colspan="2" style="border-right:1px solid #333;">*10.  Phone number of the
+                                            contact
+                                            person &nbsp;
+                                        </td>
+                                        <td>*11. Sex</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.farmer_name }}</strong>
+                                        </td>
+                                        <td colspan="2" rowspan="3"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.mobile_contact_person }}</strong>
+                                        </td>
+                                        <td rowspan="3" align="left" valign="top" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox" {% if data.sex == 'Female' %}checked{% endif %} disabled /><strong>Female</strong><br><input type="checkbox"  {% if data.sex == 'Male' %}checked{% endif %} disabled/><strong>Male</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">*9. Title/position </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">&nbsp;<strong>{{ data.title_position }}</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" td style="border-right:1px solid #333;">12. Latitude (optional)
+                                            Decimal
+                                            Degree<strong> </strong><em>(number)</em>&nbsp;</td>
+                                        <td colspan="2">13. Longitude (optional) Decimal Degree<strong> </strong><em>(number)</em>
+                                        &nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" td style="border-right:1px solid #333;">&nbsp;<strong>{{ data.gps_lattitude }}</strong></td>
+                                        <td colspan="2">&nbsp;<strong>{{ data.gps_longitude }}</strong></td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Meeting Information</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">*14. Were
+                                            the
+                                            investigators called out to the community to investigate sick/dead birds?
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.were_called_investigate_birds == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong><br><input type="checkbox"  {% if data.were_called_investigate_birds == 'No' %}checked{% endif %} disabled/><strong>No</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">*15. Did
+                                            the
+                                            investigators conduct a meeting to build network or to raise community
+                                            awareness on
+                                            avian influenza control?
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.meeting_raise_community_avian_influenza == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong><br><input type="checkbox"  {% if data.meeting_raise_community_avian_influenza == 'No' %}checked{% endif %} disabled/><strong>No</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">*16. Did
+                                            the
+                                            investigators search for sick/dead birds?
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.search_sick_dead_birds == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong><br><input type="checkbox"  {% if data.search_sick_dead_birds == 'No' %}checked{% endif %} disabled/><strong>No</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">*17. Were there any sick/dead birds
+                                            found?
+                                        </td>
+                                        <td><input type="checkbox" {% if data.were_sick_dead_birds_found == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong><br><input type="checkbox"  {% if data.were_sick_dead_birds_found == 'No' %}checked{% endif %} disabled/><strong>No</strong></td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Outbreak Investigation</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;">18. Date when your team
+                                            received
+                                            information on sick/dead birds <em>(dd-mm-yyyy)</em>&nbsp;</td>
+                                        <td colspan="3">19.  Estimated date of onset <em>(dd-mm-yyyy)</em>&nbsp;</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.date_received_sick_dead_info }}</strong>
+                                        </td>
+                                        <td colspan="3" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.date_estimated_onset }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">20. In
+                                            what type of
+                                            production system did the cases occur? (<em>check one</em>)
+                                        </td>
+                                        <td rowspan="2" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.cases_occur_type_production_system == 'Farm' %}checked{% endif %} disabled /><strong>Farm</strong>
+                                        </td>
+                                        <td rowspan="2" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Has a farm
+                                            assessment
+                                            been conducted previously?
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"> <input type="checkbox" {% if data.has_farm_previously_assessed == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong>
+                                        </td>
+                                        <td valign="top" style="border-bottom:1px solid #333;">Approximate date (<em>dd-mm-yyyy</em>)<strong>{{ data.date_previously_assessed }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;">&nbsp;</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.has_farm_previously_assessed == 'No' %}checked{% endif %} disabled /><strong>No</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.cases_occur_type_production_system == 'Backyard' %}checked{% endif %} disabled /><strong>Backyard</strong>
+                                        </td>
+                                        <td colspan="3" style="border-bottom:1px solid #333;"><input type="checkbox" {% if data.cases_occur_type_production_system == 'Wild Bird' %}checked{% endif %} disabled /><strong>Wild Bird</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">21. What
+                                            clinical signs were observed? <br/>
+                                            (block letters and comma separated)
+                                        </td>
+                                        <td colspan="4" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.clinical_sign_observed }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">22.
+                                            Affected poultry (<em>check
+                                                all that apply</em>)
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Number of
+                                            DEAD BIRDS
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Number of
+                                            SICK BIRDS
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">Total population on farm
+                                            (<strong>or estimated village population for backyard poultry</strong>)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Deshi
+                                            (backyard) chicken
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp; <strong> {{ data.deshi_chicken_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.deshi_chicken_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.deshi_chicken_population }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Sonali
+                                            chicken
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.sonali_chicken_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.sonali_chicken_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.sonali_chicken_total_population }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Brown
+                                            commercial chicken
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.brown_comm_chicken_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.brown_comm_chicken_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.brown_comm_chicken_population }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">White
+                                            commercial chicken
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.white_comm_chicken_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.white_comm_chicken_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.white_comm_chicken_population }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Duck
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.duck_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong> {{ data.duck_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.duck_population }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Other,
+                                            specify <u>      </u></td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.other_affected_dead }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.other_affected_sick }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.other_affected_population }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">23. Number of sick/dead
+                                            birds tested
+                                            by the rapid test (<em>number</em>) &nbsp;<strong>{{ data.sick_dead_tested_by_rapid_test }}</strong> birds
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">24. What is the name of
+                                            the rapid test
+                                            used? (<em>check one</em>)     
+                                            <input type="checkbox" {% if data.used_rapid_test_name == 'Bionote Anigen AIV test' %}checked{% endif %} disabled /><strong>Bionote Anigen AIV test</strong>
+                                            <input type="checkbox" {% if data.used_rapid_test_name != 'Bionote Anigen AIV test' %}checked{% endif %} disabled /><strong>Other, specify{% if data.used_rapid_test_name != 'Bionote Anigen AIV test' %}<u>
+                                                        {{ data.used_rapid_test_name }}</u>{% endif %}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">25. Rapid Test Result
+                                            (<em>check
+                                                one</em>)  <input type="checkbox" {% if data.rapid_test_result == 'Positive' %}checked{% endif %} disabled /><strong>Positive</strong>      
+                                                    <input type="checkbox" {% if data.rapid_test_result == 'Negative' %}checked{% endif %} disabled /><strong>Negative</strong>
+                                        <input type="checkbox" {% if data.rapid_test_result == 'Not performed' %}checked{% endif %} disabled /><strong>Not performed</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="5" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">26. VTM
+                                            samples
+                                            collected and sent to the lab? (<em>check one</em>)
+                                        </td>
+                                        <td rowspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.vtm_sample_collected == 'Yes' %}checked{% endif %} disabled /><strong>Yes</strong>
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-right:1px solid #333;">Date samples
+                                            collected
+                                            (<em>dd-mm-yyyy</em>) <strong>{{ data.date_vtm_sample_collected }}</strong>
+                                        </td>
+                                        <td colspan="2" valign="top">PCR Result (<em>check one</em>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" rowspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;
+                                        </td>
+                                        <td colspan="2">
+                                            <input type="checkbox" {% if data.pcr_result == 'Positive' %}checked{% endif %} disabled /><strong>Positive</strong>
+                                        <input type="checkbox" {% if data.pcr_result == 'Negative' %}checked{% endif %} disabled /><strong>Negative</strong>
+                                        <input type="checkbox" {% if data.pcr_result == 'Test not performed' %}checked{% endif %} disabled /><strong>Test not performed</strong>
+                                                </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox" {% if data.pcr_result == 'No lab report received' %}checked{% endif %} disabled /><strong>No lab report received</strong>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.vtm_sample_collected == 'No' %}checked{% endif %} disabled /><strong>No</strong>
+                                        </td>
+                                        <td colspan="4">Why? (<em>check one</em>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox" {% if data.why_not_vtm == 'No VTM' %}checked{% endif %} disabled /><strong>No VTM</strong>
+                                        <input type="checkbox" {% if data.why_not_vtm == 'Not necessary' %}checked{% endif %} disabled /><strong>Not necessary</strong>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" rowspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">27. What
+                                            kind of
+                                            culling was performed
+                                            (<em>check one</em>)
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.type_culling_performed == 'Focal culling ( culling of all birds in affected flock)' %}checked{% endif %} disabled /><strong>Focal culling ( culling of all birds in affected flock)</strong>
+                                        </td>
+                                        <td valign="top" style="border-bottom:1px solid #333;">Number of birds culled
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;"><strong>{{ data.number_birds_culled }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><input type="checkbox" {% if data.type_culling_performed == 'No culling performed' %}checked{% endif %} disabled /><strong>No culling performed</strong>
+                                        </td>
+                                        <td colspan="3">Why? (<em>explain reason</em>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.why_not_culled }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="6">28. Additional investigation information</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">&nbsp;<strong>{{ data.additional_investigation_information }}</strong></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <td><strong>*Investigator(s)</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">Name
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">
+                                            Designation
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">Contact Number</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">1.&nbsp;<strong>{{ data.investigator_name1 }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.investigator_designation1 }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">&nbsp;<strong>{{ data.investogator_contact_number1 }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="border-right:1px solid #333;">2.&nbsp;<strong>{{ data.investigator_name2 }}</strong></td>
+                                        <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.investigator_designation2 }}</strong></td>
+                                        <td colspan="2">&nbsp;<strong>{{ data.investigator_contact_number2 }}</strong></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>*Administration</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Name</td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Working
+                                            day <em>(dd-mm-yyyy)</em>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Overnight
+                                            <em>(dd-mm-yyyy)</em>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;">Signature</td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">1.<strong>{{ data.admin_name1 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date11 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_overnight_date11 }}</strong>
+                                        </td>
+                                        <td rowspan="3" valign="top" style="border-bottom:1px solid #333;">1. </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date12 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{  data.admin_overnight_date12 }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date13 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{  data.admin_overnight_date13 }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">2. <strong>{{ data.admin_name2 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date21 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_overnight_date21 }}</strong>
+                                        </td>
+                                        <td rowspan="3" valign="top" style="border-bottom:1px solid #333;">2.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date22 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_overnight_date22 }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_working_date23 }}</strong>
+                                        </td>
+                                        <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;<strong>{{ data.admin_overnight_date23 }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>Acknowledged
+                                            by:</strong></td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;"><strong>Approved
+                                            by:</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name:&nbsp;<strong>{{ data.acknowledge_by }}</strong></td>
+                                        <td style="border-right:1px solid #333;">Signature:</td>
+                                        <td>Name:&nbsp;<strong>{{ data.approved_by }}</strong></td>
+                                        <td>Signature:</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td align="center"><strong>ATTENTION:  </strong>Check that you have all the information
+                                    required to
+                                    complete this form before you leave the village.
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="center"><strong>ALWAYS CLEAN AND DISINFECT YOUR BOOTS, VEHICLE AND
+                                    EQUIPMENT </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center"><strong>WHEN YOU COMPLETE YOUR ASSIGNMENT</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

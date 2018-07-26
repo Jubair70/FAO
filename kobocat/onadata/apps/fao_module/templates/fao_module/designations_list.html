@@ -1,0 +1,98 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/plugins/data-tables/DT_bootstrap.css"/>
+    <head>
+        <title>
+            {% block title %} Designation List {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+
+
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Designation List</div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="/fao_module/add_designations_form/">
+                        <button type="submit" class="btn btn-info pull-left" id="add_new" data-original-title=""
+                                title="">Add New
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <br>
+            <table id="designations_table" class="table table-bordered table-striped table-condensed flip-content">
+                <thead class="flip-content">
+                <tr>
+                    <th>Designation ID</th>
+                    <th>Designation Name</th>
+                    <th>Supervisor Name</th>
+                    <th class="td-center">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a designations info, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}assets/plugins/data-tables/DT_bootstrap.js"></script>
+    <script>
+        var tbody = '';
+        var designations_list = {{ designations_list|safe }};
+
+        for (var idx in designations_list) {
+            if(designations_list[idx].supervisor_name)
+            tbody += '<tr><td>' + designations_list[idx].id + '</td><td>' + designations_list[idx].designations_name + '</td><td>' + designations_list[idx].supervisor_name + '</td><td class="td-center">  <a class="tooltips" data-placement="top" data-original-title="Edit" href="/fao_module/edit_designations_form/' + designations_list[idx].id + '"><i class="fa fa-2x fa-pencil-square-o"></i></a></td></tr>';
+            else tbody += '<tr><td>' + designations_list[idx].id + '</td><td>' + designations_list[idx].designations_name + '</td><td>Root</td><td class="td-center">  <a class="tooltips" data-placement="top" data-original-title="Edit" href="/fao_module/edit_designations_form/' + designations_list[idx].id + '"><i class="fa fa-2x fa-pencil-square-o"></i></a></td></tr>';
+        }
+
+        $("#designations_table").find('tbody').html(tbody);
+
+        $('.delete-item').on('click', function (e) {
+            var criteria_id = $(this).attr("data-href");
+            $('.btn-ok').attr("href", criteria_id);
+        });
+        if ($('.alert-block').is(':visible')) {
+            window.setTimeout(function () {
+                $(".alert-success").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+    </script>
+{% endblock %}

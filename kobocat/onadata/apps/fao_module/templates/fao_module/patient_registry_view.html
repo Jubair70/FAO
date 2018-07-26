@@ -1,0 +1,83 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %} Patient Registry Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+        td {
+            padding: 4px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Patients Registry Form</div>
+        </div>
+        <div class="portlet-body">
+            <table id="registry_table" class="table table-bordered table-striped">
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+
+    <script>
+        var form_label_map = {
+            "brought_hospital": "Brought in hospital",
+            "village": "Village",
+            "sick": "Sick",
+            "sex": "Sex",
+            "remarks": "Remarks",
+            "entry_type": "Entry Type",
+            "age": "Age",
+            "father_name": "Father's Name",
+            "clinical_sign_symptom": "Clinical Signs or Symptoms",
+            "herd": "Herd",
+            "tratment": "Treatment",
+            "dead": "Dead",
+            "breed": "Breed",
+            "owner_complain": "Owner's complain",
+            "day": "Day",
+            "species_type": "Species",
+            "other_species_poultry": "Others species name",
+            "other_species_livestock": "Others species name",
+            "owner_name": "Owner's Name",
+            "body_weight": "Body weight (Kg)",
+            "advice": "Advice/Suggestions",
+            "month": "Month",
+            "xunion": "Union",
+            "productive_stage": "Productive stage",
+            "date": "Date",
+            "week": "Age in weeks",
+            "production_type_other": "Others Production type",
+            "mobile": "Mobile no",
+            "tentative_diagnosis": "Tentative Diagnosis",
+            "year": "Year",
+            "flock": "Flock",
+            "production_type": "Production type",
+            "is_pregnant": "Pregnancy",
+            "division" : "Division",
+            "district" : "District",
+            "upazila" : "Upazila",
+            "username": "Username"
+        };
+        var data = {{ data |safe }}[0];
+        console.log(data)
+        var tbody = ''
+        for (each in data) {
+            if (data[each])
+                tbody += '<tr><td class="td-center">' + form_label_map[each] + '</td><td class="td-center">' + data[each] + '</td></tr>';
+            // else tbody+= '<tr><td>' + form_label_map[each] + '</td><td>No Data Available</td></tr>';
+        }
+        $("#registry_table").find('tbody').html(tbody);
+    </script>
+{% endblock %}

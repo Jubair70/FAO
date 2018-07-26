@@ -1,0 +1,135 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+
+    <head>
+        <title>
+            {% block title %} Disease Trends Chart {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                 <div class="caption"><i class="fa fa-adn"></i> Disease Trends Chart</div>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <div id="container" style="width:100%; height:400px;"></div>
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script>
+    var categories = {{ categories |safe }};
+    var names = {{ name |safe }};
+    var data = {{ data |safe }};
+    var series = [];
+    for (i = 0; i < data.length; i++)
+        series.push({'name': names[i], 'data': data[i]});
+    Highcharts.chart('container', {
+
+    title: {
+        text: 'Disease Trends'
+    },
+		xAxis: {
+        categories: categories
+    },
+    yAxis: {
+        title: {
+            text: 'Number of Cases'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+
+    },
+
+    series: series,
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+});
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Bar Chart</title>#}
+{#    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>#}
+{##}
+{##}
+{#</head>#}
+{#<body>#}
+{#<div id="container" style="width:100%; height:400px;"></div>#}
+{#<script>#}
+{#    var retunvals = {{ vx | safe }};#}
+{#    var data = retunvals['data'];#}
+{#    var categories = retunvals['categories'];#}
+{#    var section = retunvals['section'];#}
+{#    var series = [];#}
+{#    for (i = 0; i < data.length; i++)#}
+{#        series.push({'name': section[i], 'data': data[i]});#}
+{##}
+{##}
+{#    $(function () {#}
+{#        $('#chart_container').highcharts({#}
+{#            chart: {#}
+{#                type: 'column'#}
+{#            },#}
+{#            title: {#}
+{#                text: ''#}
+{#            },#}
+{#            xAxis: {#}
+{#                categories: categories#}
+{#            },#}
+{#            yAxis: {#}
+{#                title: {#}
+{#                    text: 'Number'#}
+{#                }#}
+{#            },#}
+{#            series: series#}
+{#        });#}
+{#    });#}
+{#    #}
+{#</script>#}
+{#</body>#}
+{#</html>#}

@@ -1,0 +1,77 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %} Edit Designations Form {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Designations Form
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <form class="horizontal-form" id="" method="post" action="/fao_module/update_designations_form/"
+                  enctype="multipart/form-data">
+                <input type="hidden" id="designations_id" name="designations_id" value="">
+                <input type="hidden" id="set_supervisor_id" name="set_supervisor_id" value="{{ set_supervisor_id }}">
+                {% csrf_token %}
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Designation Name">Designation Name:</label>
+                                <input type="text" class="form-control" name="designations_name" id="designations_name"
+                                       value="{{ set_designations_name }}" required>
+                            </div>
+                        </div>
+                    </div>
+
+{#                    <div class="row">#}
+{#                        <div class="col-md-5">#}
+{#                            <div class="form-group">#}
+{#                                <label for="Supervisor Name">Supervisor Name:</label>#}
+{#                               <select class="form-control" name="supervisor_id" id="supervisor_id" required>#}
+{#                                    {% if set_supervisor_id != None %}#}
+{#                                    <option value="{{ set_supervisor_id }}">{{ set_supervisor_name }}</option>#}
+{#                                    {% endif %}#}
+{#                                    <option>No Parent</option>#}
+{#                                    {% for supervisor_id,supervisor_name in supervisor %}#}
+{#                                        {% if set_supervisor_id != supervisor_id %}#}
+{#                                        <option value="{{ supervisor_id }}">{{ supervisor_name }}</option>#}
+{#                                        {% endif %}#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger pull-left" id="submit" name="submit" type="submit"
+                                    data-original-title=""
+                                    title="">Submit
+                            </button>
+                            <button onclick="history.go(-1);" style="margin-left:10px;" type="button"
+                                    class="btn btn-info pull-left" data-original-title="" title="">Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript">
+        $("#designations_id").val({{ designations_id |safe}});
+    </script>
+
+{% endblock %}

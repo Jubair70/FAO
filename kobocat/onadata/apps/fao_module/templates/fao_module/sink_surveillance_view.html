@@ -1,0 +1,228 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %}  Sink Surveillance Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+td{ padding:4px;}
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Sink Surveillance Form</div>
+        </div>
+        <div class="portlet-body">
+            <table class="table" width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr align="center" valign="top">
+        <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr align="center" valign="top">
+{#            	<td align="left"><img src="images/pso-logo.png" width="80" height="78" /></td>#}
+                <td align="left" valign="bottom"><strong> <h2>Sink Surveillance Laboratory Submission Form</h2></strong></td>
+{#                <td align="right"><img src="images/fao-logo.png" width="288" height="80" /></td>#}
+            </tr>
+        </table></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"  style="border:1px solid #333;">
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">1.</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Name  of market</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>{{ data.market_name }}</strong></td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;" align="center" valign="top">2.</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Ward number</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>{{ data.ward_number }}</strong></td>
+                <td align="center" valign="top"  style="border-bottom:1px solid #333;border-right:1px solid #333;">3.</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">City Corporation</td>
+                <td style="border-bottom:1px solid #333;"><strong>{{ data.city_corporation }}</strong></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">4.</td>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">Live Bird Market ID </td>
+                <td colspan="7" style="border-bottom:1px solid #333;"><strong>{{ data.live_bird_market_id}}</strong></td>
+                </tr>
+            <tr>
+                <td align="center" valign="top" style="border-right:1px solid #333;">5.</td>
+                <td style="border-right:1px solid #333;">Date sample collected <em>(dd-mm-yyyy)</em></td>
+                <td colspan="7"><strong>{{ data.date_sample_collected }}</strong></td>
+                </tr>
+        </table></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border:1px solid #333;">
+            <tr>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+                <td style="border-bottom:1px solid #333;"><strong>Sample identification:  LBM ID + Area code (DK-N01-003-A)</strong></td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+                <td style="border-bottom:1px solid #333;"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border-right:1px solid #333;">Area A</td>
+                        <td style="border-right:1px solid #333;">Area S</td>
+                        <td>Area E</td>
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">6.</td>
+                <td style="border-bottom:1px solid #333;"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.a_area_id }}</strong></td>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.s_area_id }}</strong></td>
+                        <td><strong>{{ data.e_area_id }}</strong></td>
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+                <td style="border-bottom:1px solid #333;"><strong>Lab identification: </strong></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">7.</td>
+                <td style="border-bottom:1px solid #333;"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.a_lab_identification }}</strong></td>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.s_lab_identification }}</strong></td>
+                        <td><strong>{{ data.e_lab_identification }}</strong></td>
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">8.</td>
+                <td style="border-bottom:1px solid #333;"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="left" valign="top" style="border-right:1px solid #333;"><strong>Swab</strong></td>
+                        <td align="left" valign="top" style="border-right:1px solid #333;"><strong>Number of swab</strong></td>
+                        <td align="left" valign="top" style="border-right:1px solid #333;"><strong>Swab</strong></td>
+                        <td align="left" valign="top" style="border-right:1px solid #333;"><strong>Number of swab</strong></td>
+                        <td align="left" valign="top" style="border-right:1px solid #333;"><strong>Swab</strong></td>
+                        <td align="left" valign="top"><strong>Number of swab</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">i) floor of arrival/holding area </td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.a_floor_area }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">i) processing table after defeathering</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.s_table_defeathering }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">i) table for display </td>
+                        <td style="border-bottom:1px solid #333;"><strong>{{ data.e_display_table }}</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">ii) cages/pens with live birds</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.a_cages_birds }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">ii) baskets or trays holding bird meat</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.s_bird_meat_holding_tray }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">ii) chopping boards</td>
+                        <td style="border-bottom:1px solid #333;"><strong>{{ data.e_chopping_board }}</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iii) waste water</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.a_waste_water }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iii) slaughtering boards/area</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.s_slautering_boards_area }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iii) wet cleaning cloths</td>
+                        <td style="border-bottom:1px solid #333;"><strong>{{ data.e_cloths_wet }}</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iv) waste bins</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.a_waste_bins }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iv) waste bins</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.s_waste_bin }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">iv) scales</td>
+                        <td style="border-bottom:1px solid #333;"><strong>{{ data.e_scales }}</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">v) trucks (if present)</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.a_truck }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">v) waste water/ blood drain path</td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;"><strong>{{ data.s_waste_water_path }}</strong></td>
+                        <td style="border-right:1px solid #333; border-bottom:1px solid #333;">v) knives/ utensils</td>
+                        <td style="border-bottom:1px solid #333;"><strong>{{ data.e_knives_utensils }}</strong></td>
+
+                    </tr>
+                    <tr>
+                        <td style="border-right:1px solid #333;">vi) any one of the above (based on risk  perception); please specify: <strong>{{ data.a_specify_other_name }}</strong></td>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.a_specify_other_number }}</strong></td>
+                        <td style="border-right:1px solid #333;">vi) Defeathering machine</td>
+                        <td style="border-right:1px solid #333;"><strong>{{ data.s_defeathering_machine }}</strong></td>
+                        <td style="border-right:1px solid #333;">vi) any one of the above (based on risk  perception); please specify: <strong>{{ data.e_specify_other }}</strong></td>
+                        <td><strong>{{ data.e_specify_other_number }}</strong></td>
+
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+                <td style="border-bottom:1px solid #333;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">9.</td>
+                <td align="left" valign="top" style="border-bottom:1px solid #333;"><p>Remarks:<br> <strong>{{ data.remarks }}</strong></p></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">10.</td>
+                <td style="border-bottom:1px solid #333;"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border-right:1px solid #333;">Sample collected by (Name and signature)</td>
+                        <td><strong>{{ data.sample_collected_by }}</strong></td>
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid #333;border-right:1px solid #333;">&nbsp;</td>
+                <td style="border-bottom:1px solid #333;"><p align="center"><em>For Laboratory use only</em></p></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-bottom:1px solid #333;border-right:1px solid #333;">11.</td>
+                <td  style="border-bottom:1px solid #333;"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="border-right:1px solid #333;">Date  sample received at the laboratory <em>(dd-mm-yyyy)</em></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table></td>
+            </tr>
+            <tr>
+                <td align="center" valign="top" style="border-right:1px solid #333;">12.</td>
+                <td><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td  style="border-right:1px solid #333;">Received  by (Name and signature)</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table></td>
+            </tr>
+        </table></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+        </div>
+    </div>
+
+{% endblock %}
+{% block additional-javascript %}
+    <script>
+    $(document).ready(function () {
+       var data =  {{ data |safe }}
+        console.log(data)
+    });
+
+
+    </script>
+{% endblock %}

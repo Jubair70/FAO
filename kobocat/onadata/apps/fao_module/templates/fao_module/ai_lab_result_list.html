@@ -1,0 +1,250 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="/static/css/datepicker.css" rel="stylesheet">
+    <head>
+        <title>
+            {% block title %} AI Lab Result List {% endblock %}
+        </title>
+    </head>
+
+{% endblock %}
+
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>AI Lab Result List</div>
+        </div>
+        <div class="portlet-body">
+        <form method="post"  action="/fao_module/xls_report_creator_for_ai_lab_result/"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id = "all_geo_id" hidden></div>
+            <div class="row">
+                <div class="col-md-1" style="width: 6%">
+                        <button type="submit" class="btn btn-info pull-left" data-original-title=""
+                                title="">Export Excel
+                        </button>
+                </div>
+            </div>
+        </form>
+
+
+            <br>
+            <table id="farm_assessment_table" class="table table-bordered table-striped  nowrap">
+                <thead>
+
+                <tr>
+                    <th class="td-center">Reference Investigation ID</th>
+                    <th class="td-center">Reference Sample ID</th>
+                    <th class="td-center">Test Set-up Number</th>
+                    <th class="td-center">Test Set-up Date</th>
+                    <th class="td-center">Output Date</th>
+                    <th class="td-center">Result</th>
+                    <th class="td-center">Protocol Details</th>
+                    <th class="td-center">CT Value</th>
+                    <th class="td-center">Result Details</th>
+                    <th class="td-center">Test Set-up Person</th>
+                    <th class="td-center">Result Input Person</th>
+                </tr>
+                <tr>
+                    <td class="td-center">Reference Investigation ID</td>
+                    <td class="td-center">Reference Sample ID</td>
+                    <td class="td-center">Test Set-up Number</td>
+                    <td class="td-center">Test Set-up Date</td>
+                    <td class="td-center">Output Date</td>
+                    <td class="td-center">Result</td>
+                    <td class="td-center">Protocol Details</td>
+                    <td class="td-center">CT Value</td>
+                    <td class="td-center">Result Details</td>
+                    <td class="td-center">Test Set-up Person</td>
+                    <td class="td-center">Result Input Person</td>
+                </tr>
+
+                {#                <tr>#}
+                {#                    {% for each in col_name %}#}
+                {#                        <th class="td-center">{{ each|title }}</th>#}
+                {#                    {% endfor %}#}
+                {#                    <th class="td-center">Action</th>#}
+                {#                </tr>#}
+                {##}
+                {#                <tr>#}
+                {#                    {% for each in col_name %}#}
+                {#                        <td class="td-center">{{ each }}</td>#}
+                {#                    {% endfor %}#}
+                {#                    <td></td>#}
+                {#                </tr>#}
+                </thead>
+
+                <tbody>
+                {% for each in json_data %}
+                    <tr>
+                        {% for key in col_name %}
+                            <td>
+                                {% if key in each %}
+                                    {{ each | keyvalue:key  }}
+
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a info, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap-datepicker.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+
+
+            var all_geo_id = {{ all_geo_id | safe}};
+            for (each in all_geo_id){
+                console.log();
+                $('#all_geo_id').append("<input name = \"all_geo_id\" value=\" "+ all_geo_id[each]+" \" />");
+            }
+{#            console.log($('#all_geo_id').val());#}
+            $('#farm_assessment_table thead td').each(function () {
+                var title = $(this).text();
+                if (title != "      " && title != "Report Type")
+                    $(this).html('<input  type="text" placeholder="' + title + '" />');
+
+
+            });
+            // DataTable   "scrollX": true, "ordering": false,
+            var table = $('#farm_assessment_table').DataTable({
+                initComplete: function () {
+
+                    this.api().columns().every(function () {
+
+
+                        var column = this;
+{#                        if (this.index() == 1) {#}
+{##}
+{#                            var select = $('<select><option value=""></option></select>')#}
+{#                                .appendTo($(column.header()).empty())#}
+{#                                .on('change', function () {#}
+{#                                    var val = $.fn.dataTable.util.escapeRegex(#}
+{#                                        $(this).val()#}
+{#                                    );#}
+{##}
+{#                                    column#}
+{#                                        .search(val ? '^' + val + '$' : '', true, false)#}
+{#                                        .draw();#}
+{#                                });#}
+{##}
+                            {#                        column.data().unique().sort().each(function (d, j) {#}
+                            {#                            select.append('<option value="' + d + '">' + d + '</option>')#}
+                            {#                        });#}
+{#                            select.append('<option value="First Assessment Report">First Assessment Report</option>')#}
+{#                            select.append('<option value="Follow-up monitoring report">Follow-up monitoring report</option>')#}
+{#                            select.append('<option value="Farm is closed">Farm is closed</option>')#}
+{##}
+{#                        }#}
+{#                        else #}
+
+                            if (this.index() == 3 || this.index() == 4) {
+                            $('<input  type="text" placeholder="Date" />')
+                                .datepicker({
+
+                                    format: 'yyyy/mm/dd',
+                                    todayHighlight: true
+                                })
+                                .appendTo($(column.header()).empty())
+
+                                .on('changeDate', function () {
+
+                                    $(this).datepicker('hide');
+                                    column.search($(this).val()).draw();
+
+                                })
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column.search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                        }
+
+                    });
+                }
+                , "scrollX": true, "ordering": false
+            });
+
+            //    var table = $('#farm_assessment_table').DataTable({scrollX:true,scrollY:'50vh',paging: false,ordering: false,scrollCollapse: true});
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.header()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+            table.columns.adjust().draw();
+        });
+
+
+        // Setup - add a text input to each footer cell
+
+
+        $('.delete-item').on('click', function (e) {
+            var criteria_id = $(this).attr("data-href");
+            $('.btn-ok').attr("href", criteria_id);
+        });
+        if ($('.alert-block').is(':visible')) {
+            window.setTimeout(function () {
+                $(".alert-success").fadeTo(1500, 0).slideUp(500, function () {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+    </script>
+{% endblock %}

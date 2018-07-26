@@ -1,0 +1,1462 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %}  Farm Assessment Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+        td {
+            padding: 4px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Farm Assessment Form</div>
+        </div>
+        <div class="portlet-body">
+            <table class="table" width="1024" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            {#                            <tr>#}
+                            {#                                <td align="center" valign="top"><img src="../u2c forms 2nd July/images/pso-logo.png"#}
+                            {#                                                                     width="80"#}
+                            {#                                                                     height="78"/></td>#}
+                            {#                            </tr>#}
+                            <tr>
+                                <td align="center" valign="top" align="center">BANGLADESH U2C INITIATIVE</td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top" align="center"><strong>FARM ASSESSMENT AND MONITORING
+                                    REPORT</strong></td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top" align="center"><strong>Reporting Unit: Farm</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Farm profile</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+                                    <tr>
+                                        <td colspan="8" valign="bottom">FARM ID (as provided by software):</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.farm_id }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="21%" rowspan="2" valign="top" style="border-bottom:1px solid #333;">
+                                            *1. Report
+                                            type (<em>check one)</em></td>
+                                        <td colspan="7">
+                                            <input type="checkbox"
+                                                   {% if data.report_type == 'First Assessment Report' %}checked{% endif %}
+                                                   disabled/><strong>First assessment report</strong><br>
+                                            <input type="checkbox"
+                                                   {% if data.report_type == 'Follow-up Report' %}checked{% endif %}
+                                                   disabled/><strong>Follow-up monitoring report (write Farm ID above as
+                                            issued after first visit)</strong>
+
+
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" style="border-bottom:1px solid #333;"><input type="checkbox"
+                                                                                                     {% if data.report_type == 'Farm is closed' %}checked{% endif %}
+                                                                                                     disabled/><strong>Farm
+                                            is closed</strong></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" valign="top" style="border-right:1px solid #333;">*2. Date of
+                                            visit <em>(dd-mm-yyyy</em>)
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-right:1px solid #333;">*3. Division (<em>block
+                                            letters)</em></td>
+                                        <td colspan="2" style="border-right:1px solid #333;">*4. District (<em>block
+                                            letters)</em>
+                                        </td>
+                                        <td colspan="2">*5. Upazila <em>(</em><em>block letters)</em></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.date_initial_visit }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.division }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.district }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.upazila }}</strong></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td colspan="2" style="border-right:1px solid #333;">*6. Union <em>(block
+                                            letters)</em></td>
+                                        <td colspan="2" style="border-right:1px solid #333;">7. Mouza <em>(block
+                                            letters)(optional)</em></td>
+                                        <td colspan="2" style="border-right:1px solid #333;">*8. Village <em>(block
+                                            letters)</em>
+                                        </td>
+                                        <td colspan="2">*9. Address (<em>block letters)</em></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.xunion }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.mouza }}</strong>
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">
+                                            &nbsp;<strong>{{ data.village }}</strong>
+                                        </td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.address }}</strong></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="border-right:1px solid #333;">*10. Owner&rsquo;s name
+                                            (<em>block
+                                                letters)</em></td>
+                                        <td colspan="3" style="border-right:1px solid #333;">*11.  Owner phone number
+                                            (<em>numbers</em>)
+                                        </td>
+                                        <td colspan="3">*12. Farm Ownership Type (<em>check one</em>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" rowspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.owner_name }}</strong>
+                                        </td>
+                                        <td colspan="3" rowspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.mobile_owner }}</strong>
+                                        </td>
+                                        <td colspan="3" border-bottom:1px solid #333;>
+                                            <input type="checkbox"
+                                                   {% if data.farm_ownership_type == 'Corporate contract' %}checked{% endif %}
+                                                   disabled/><strong>Corporate contract</strong><br>
+                                            <input type="checkbox"
+                                                   {% if data.farm_ownership_type == 'Independent' %}checked{% endif %}
+                                                   disabled/><strong>Independent</strong>
+
+
+                                             
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.farm_ownership_type == 'Personal contract' %}checked{% endif %}
+                                                   disabled/><strong>Personal contract (dealer)</strong><br>
+                                            <input type="checkbox"
+                                                   {% if data.farm_ownership_type == 'Rental' %}checked{% endif %}
+                                                   disabled/><strong>Rental</strong>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">*13. Persons interviewed (<em>check
+                                            one</em>)
+                                        </td>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.type_person_interviewed == 'Owner' %}checked{% endif %}
+                                                   disabled/><strong>Owner</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.type_person_interviewed == 'Farm manager' %}checked{% endif %}
+                                                   disabled/><strong>Farm manager</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.type_person_interviewed == 'Farm worker' %}checked{% endif %}
+                                                   disabled/><strong>Farm worker</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.type_person_interviewed == 'Dealer' %}checked{% endif %}
+                                                   disabled/><strong>Dealer</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="4" style="border-right:1px solid #333;">14. Latitude (optional)
+                                            Decimal
+                                            Degree<strong> </strong><em>(number)</em></td>
+                                        <td colspan="4">15. Longitude (optional) Decimal Degree<strong> </strong><em>(number) </em>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.gps_lattitude }}</strong>
+                                        </td>
+                                        <td colspan="4" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.gps_longitude }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;">*16.
+                                            Species (<em>check
+                                                all that apply</em>)
+                                        </td>
+                                        <td width="21%" style="border-right:1px solid #333;"><input type="checkbox"
+                                                                                                    {% if 'Chicken' in data.type_species %}checked{% endif %}
+                                                                                                    disabled/><strong>Chicken</strong>
+                                        </td>
+                                        <td width="9%" rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;"><input
+                                                type="checkbox" {% if 'Duck' in data.type_species %}checked{% endif %}
+                                                disabled/><strong>Duck</strong></td>
+                                        </td>
+                                        <td width="8%" rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;"><input
+                                                type="checkbox" {% if 'Goose' in data.type_species %}checked{% endif %}
+                                                disabled/><strong>Goose</strong>
+                                        </td>
+                                        <td width="16%" rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;"><input
+                                                type="checkbox" {% if 'Pigeon' in data.type_species %}checked{% endif %}
+                                                disabled/><strong>Pigeon</strong>
+                                        </td>
+                                        <td width="11%" rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;"><input
+                                                type="checkbox" {% if 'Quail' in data.type_species %}checked{% endif %}
+                                                disabled/><strong>Quail</strong>
+                                        </td>
+                                        <td width="5%" rowspan="3" valign="top"
+                                            style="border-right:1px solid #333; border-bottom:1px solid #333;"><input
+                                                type="checkbox" {% if 'Turkey' in data.type_species %}checked{% endif %}
+                                                disabled/><strong>Turkey</strong>
+                                        </td>
+                                        <td width="9%" rowspan="3" valign="top" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox" {% if 'Guinea fowl' in data.type_species %}checked{% endif %}
+                                                   disabled/><strong>Guinea fowl</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="border-right:1px solid #333;"><input type="checkbox"
+                                                                                        {% if 'Brown Comm' in data.type_chicken %}checked{% endif %}
+                                                                                        disabled/><strong>Brown Comm.</strong><br>
+                                            <input type="checkbox" {% if 'White Comm' in data.type_chicken %}checked{% endif %}
+                                                   disabled/><strong>White Comm.</strong>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox" {% if 'Deshi (backyard)' in data.type_chicken %}checked{% endif %}
+                                                   disabled/><strong>Deshi (backyard)</strong><br>
+                                            <input type="checkbox" {% if 'Sonali' in data.type_chicken %}checked{% endif %}
+                                                   disabled/><strong>Sonali</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" valign="top" style="border-bottom:1px solid #333;">*17. Standing
+                                            population
+                                            (<em>number</em>)
+                                        </td>
+                                        <td colspan="2"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.standing_population_birds }}</strong>
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-bottom:1px solid #333;">*18. Maximum
+                                            farm
+                                            capacity (<em>number</em>)
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-bottom:1px solid #333;">
+                                            <strong>{{ data.maximum_farm_capacity_birds }}</strong> birds
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">*19. Birds production
+                                            purpose (<em>check
+                                                one</em>)
+                                        </td>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Egg' %}checked{% endif %}
+                                                   disabled/><strong>Egg</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Meat' %}checked{% endif %}
+                                                   disabled/><strong>Meat</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Egg & Meat' %}checked{% endif %}
+                                                   disabled/><strong>Egg &amp;Meat</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Breeder' %}checked{% endif %}
+                                                   disabled/><strong>Breeder</strong>
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Sport' %}checked{% endif %}
+                                                   disabled/><strong>Sport</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.birds_production_purpose == 'Pet' %}checked{% endif %}
+                                                   disabled/><strong>Pet</strong>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="border-bottom:1px solid #333;">*20. Age at arrival on
+                                            farm (<em>check
+                                                one</em>)
+                                        </td>
+                                        <td colspan="6" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.age_arrival_farm == 'DOC' %}checked{% endif %}
+                                                   disabled/><strong>DOC</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.age_arrival_farm == 'Pullet' %}checked{% endif %}
+                                                   disabled/><strong>Pullet</strong>&nbsp;
+                                            <input type="checkbox"
+                                                   {% if data.age_arrival_farm == 'Adult' %}checked{% endif %}
+                                                   disabled/><strong>Adult</strong>
+
+                                                 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" rowspan="2" valign="top" style="border-right:1px solid #333;">
+                                            *21. Has an
+                                            avian influenza investigation been conducted previously on this farm?
+                                        </td>
+                                        <td colspan="2" valign="top"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.previously_avian_influenza_investigate == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>
+
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-bottom:1px solid #333;">Approximate
+                                            date (<em>dd-mm-yyyy</em>)
+                                        </td>
+                                        <td colspan="2" valign="top" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.date_previously_avian_influenza_investigate }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"><input type="checkbox"
+                                                               {% if data.previously_avian_influenza_investigate == 'No' %}checked{% endif %}
+                                                               disabled/><strong>No</strong></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Avian Influenza vaccination practices</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+
+                                    <tr>
+                                        <td colspan="4" valign="top" style="border-right:1px solid #333;">22. Vaccine 1:
+                                            Name of AI
+                                            vaccine used (<em>product full  name</em>)
+                                        </td>
+                                        <td colspan="4">27. Vaccine 2: Name of AI vaccine used (<em>product full
+                                            name</em>)
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">
+                                            &nbsp;<strong>{{ data.vaccine1_ai_vaccination_used }}</strong>
+                                        </td>
+                                        <td colspan="4" style="border-bottom:1px solid #333;">
+                                            &nbsp;<strong>{{ data.vaccine2_ai_vaccination_used }}</strong></td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td rowspan="8" valign="top"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            23.Schedule used for
+                                            Vaccine 1<strong>: (<em>check one</em>)</strong></td>
+                                        <td colspan="3" style="border-right:1px solid #333;"><p>
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine1 == 'Age basis:' %}checked{% endif %}
+                                                   disabled/><strong><u>Age basis:</u></strong>
+
+                                            <br/>
+                                            24. Before production (<em>check all that apply</em>)<br/>
+
+                                            <input type="checkbox"
+                                                   {% if '0-2 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>0-2 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '3-5 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>3-5 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '6-8 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>6-8 weeks</strong><br>
+
+                                            <input type="checkbox"
+                                                   {% if '9-11 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>9-11 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '12-14 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>12-14 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '15 – 17 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>15 – 17 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '18-20 weeks' in data.schedule_vaccine1_before_production %}checked{% endif %}
+                                                   disabled/><strong>18-20 weeks</strong>
+
+
+                                        </td>
+                                        <td rowspan="8" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><p>28.</p>
+                                            Schedule used for Vaccine 2<strong>: (<em>check one</em>)</strong></td>
+                                        <td colspan="3" valign="top">
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine2 == 'Age basis:' %}checked{% endif %}
+                                                   disabled/><strong><u>Age basis:</u></strong>
+                                            <br/>
+                                            29. Before production (<em>check all that apply</em>)<br/>
+                                            <input type="checkbox"
+                                                   {% if '0-2 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>0-2 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '3-5 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>3-5 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '6-8 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>6-8 weeks</strong><br>
+
+                                            <input type="checkbox"
+                                                   {% if '9-11 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>9-11 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '12-14 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>12-14 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '15 – 17 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>15 – 17 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '18-20 weeks' in data.schedule_vaccine2_before_production %}checked{% endif %}
+                                                   disabled/><strong>18-20 weeks</strong>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;"><p>25.
+                                            After
+                                            production (<em>check all that apply</em>)</p>
+
+                                            <input type="checkbox"
+                                                   {% if '21-30 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>21-30 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '31-40 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>31-40 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '51-60 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>51-60 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '41-50 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>41-50 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '61-70 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>61-70 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '71-80 weeks' in data.schedule_vaccine1_after_production %}checked{% endif %}
+                                                   disabled/><strong>71-80 weeks</strong><br>
+                                        </td>
+                                        <td colspan="3" valign="top" s><p>30. After production (<em>check all that
+                                            apply</em>)</p>
+                                            <input type="checkbox"
+                                                   {% if '21-30 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>21-30 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '31-40 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>31-40 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '51-60 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>51-60 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '41-50 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>41-50 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '61-70 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>61-70 weeks</strong><br>
+                                            <input type="checkbox"
+                                                   {% if '71-80 weeks' in data.schedule_vaccine2_after_production %}checked{% endif %}
+                                                   disabled/><strong>71-80 weeks</strong><br>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;"><p>
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine1 == 'Calendar basis' %}checked{% endif %}
+                                                   disabled/><strong><u>Calendar
+                                            basis</u></strong>
+
+
+                                        </p>
+                                            <p>26. Dates of the last 3 AI Vaccination (<em>month-year</em>)</p></td>
+                                        <td colspan="3" valign="top">
+
+
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine2 == 'Calendar basis' %}checked{% endif %}
+                                                   disabled/><strong><u>Calendar
+                                            basis</u></strong>
+                                            <p>31. Dates of the last 3 AI Vaccination (<em>month-year</em>)</p></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;">
+                                            1.<strong>{{ data.date1_last3_ai_vaccination1 }}</strong></td>
+                                        <td colspan="3" valign="top">
+                                            1.<strong>{{ data.date1_last3_ai_vaccination2 }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;">
+                                            2.<strong>{{ data.date2_last3_ai_vaccination1 }}</strong></td>
+                                        <td colspan="3" valign="top">
+                                            2.<strong>{{ data.date2_last3_ai_vaccination2 }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;">
+                                            3.<strong>{{ data.date3_last3_ai_vaccination1 }}</strong></td>
+                                        <td colspan="3" valign="top">
+                                            3.<strong>{{ data.date3_last3_ai_vaccination2 }}</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border-right:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine1 == 'After outbreak' %}checked{% endif %}
+                                                   disabled/>
+                                            <strong>After
+                                                outbreak</strong></td>
+                                        <td colspan="3" valign="top"><input type="checkbox"
+                                                                            {% if data.schedule_vaccine2 == 'After outbreak' %}checked{% endif %}
+                                                                            disabled/>
+                                            <strong>After
+                                                outbreak</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine1 == "No schedule (farmer doesn''t know)" %}checked{% endif %}
+                                                   disabled/>
+                                            <strong>No
+                                                schedule (farmer doesn&rsquo;t know)</strong></td>
+                                        <td colspan="3" valign="top" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if data.schedule_vaccine2 == "No schedule (farmer doesn''t know)" %}checked{% endif %}
+                                                   disabled/>
+
+                                            <strong>No
+                                                schedule
+                                                (farmer doesn&rsquo;t know)</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" valign="top" style="border-right:1px solid #333;">32. Vaccine
+                                            given by (<em>check
+                                                one</em>)
+                                        </td>
+                                        <td colspan="4">33. Means of verification (<em>check all that apply</em>)</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" valign="top" style="border-right:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.vaccination_given_by == 'Outside vaccinator' %}checked{% endif %}
+                                                   disabled/><strong>Outside vaccinators</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.vaccination_given_by == 'Farm Staff' %}checked{% endif %}
+                                                   disabled/><strong>Farm staff</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.vaccination_given_by == 'Both' %}checked{% endif %}
+                                                   disabled/><strong>Both</strong>
+                                                              
+                                        </td>
+                                        <td colspan="4">
+                                            <input type="checkbox"
+                                                   {% if  data.vaccine_means_verification == 'Vaccination record' %}checked{% endif %}
+                                                   disabled/><strong>Vaccination records</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.vaccine_means_verification == 'Semi-structure interview' %}checked{% endif %}
+                                                   disabled/><strong>Semi-structured interview</strong>&nbsp;&nbsp;
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Biosecurity practices</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+
+                                    <tr>
+                                        <td colspan="4" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>*34. 
+                                            A. 
+                                            Access control at farm entrance</strong></td>
+                                        <td colspan="2" style="border-bottom:1px solid #333;"><strong>*B.   Access
+                                            control between
+                                            loading area and production area</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">A.1
+                                            Outside vehicles
+                                            do not enter farm, only essential vehicles (e.g. feed, egg)
+                                        </td>
+                                        <td width="9%"
+                                            style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.outside_worker_do_not_enter_farm == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.outside_worker_do_not_enter_farm == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                        <td width="30%" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">B.1 No
+                                            movement of
+                                            vehicles in and out the production area
+                                        </td>
+                                        <td width="8%" colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.no_vehical_in_out_production_area == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.no_vehical_in_out_production_area == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">A.2 Only
+                                            workers and
+                                            approved visitors enter farm
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.only_workers_approved_visitor_enter_farm == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.only_workers_approved_visitor_enter_farm == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">B.2 Only
+                                            workers enter production area
+                                        </td>
+                                        <td colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.only_workers_enter_production_area == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.only_workers_enter_production_area == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">A.3 No
+                                            manure
+                                            collectors enter farm
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.no_manure_collector_enter_farm == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.no_manure_collector_enter_farm == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">B.3 Only
+                                            visitors enter production area if accompanied by farm manager
+                                        </td>
+                                        <td colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.visitors_enter_production_if_approve_manager == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.visitors_enter_production_if_approve_manager == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><p>A.4
+                                            Farm area is
+                                            fully fenced and duck/chicken proof</p></td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+
+                                            <input type="checkbox"
+                                                   {% if  data.fenced_duck_chicken_proof == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.fenced_duck_chicken_proof == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">B.4 Signs
+                                            posted
+                                        </td>
+                                        <td colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.access_control_loading_production_sign_posted == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.access_control_loading_production_sign_posted == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">A.5 Dead
+                                            birds
+                                            disposed safely
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+
+                                            <input type="checkbox"
+                                                   {% if  data.dead_birds_disposed_safely == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_birds_disposed_safely == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                        <td colspan="2" rowspan="2" valign="top" style="border-bottom:1px solid #333;">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">A.6 Signs
+                                            posted
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.sign_posted == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.sign_posted == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" align="center" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><strong>*C.  
+                                            Personnel management</strong></td>
+                                        <td colspan="2" align="center" valign="top"
+                                            style="border-bottom:1px solid #333;"><strong>*D.  
+                                            Equipment management</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">C.1
+                                            Outside footwear
+                                            left outside farm
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.footwear_left_outside == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.footwear_left_outside == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">D.1
+                                            materials returning from market or other farm cleaned with soap and water
+                                            before
+                                            entering the farm
+                                        </td>
+                                        <td colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.returning_materials_cleaned == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.returning_materials_cleaned == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><p>C.2
+                                            Workers and
+                                            visitors change clothes upon entering farm</p></td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.change_clothes_entering_farm == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.change_clothes_entering_farm == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                        <td valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;"><p>D.2
+                                            materials returning from market or other farm disinfected before entering
+                                            the farm</p>
+                                        </td>
+                                        <td colspan="-1" valign="top" style="border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.returning_materials_disinfect == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong><br>
+                                            <input type="checkbox"
+                                                   {% if  data.returning_materials_disinfect == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">C.3
+                                            Workers and
+                                            visitors use only dedicated footwear in production area
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.uses_dedicated_footwear == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.uses_dedicated_footwear == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                        <td colspan="2" rowspan="2" valign="top" style="border-bottom:1px solid #333;">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" valign="top"
+                                            style="border-bottom:1px solid #333;border-right:1px solid #333;">C.4 Worker
+                                            and
+                                            visitors shower upon entering farm
+                                        </td>
+                                        <td style="border-right:1px solid #333;border-bottom:1px solid #333;">
+
+                                            <input type="checkbox"
+                                                   {% if  data.shower_entering_farm == 'Yes' %}checked{% endif %}
+                                                   disabled/><strong>Yes</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.shower_entering_farm == 'No' %}checked{% endif %}
+                                                   disabled/><strong>No</strong>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">*35. Most common dead bird management practice (check one)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border-bottom:1px solid #333;">
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'buried' %}checked{% endif %}
+                                                   disabled/><strong>buried</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'river' %}checked{% endif %}
+                                                   disabled/><strong>river</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'rubbish pit' %}checked{% endif %}
+                                                   disabled/><strong>rubbish pit</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'pond' %}checked{% endif %}
+                                                   disabled/><strong>pond</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'open place/bush' %}checked{% endif %}
+                                                   disabled/><strong>open place/bush</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'rubbish container' %}checked{% endif %}
+                                                   disabled/><strong>rubbish container</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  data.dead_bird_management_practice == 'food/feed' %}checked{% endif %}
+                                                   disabled/><strong>food/feed</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">*36. Means of verification (<em>check all that apply</em>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">
+
+                                            <input type="checkbox"
+                                                   {% if 'direct observation' in data.farm_entrance_means_verification %}checked{% endif %}
+                                                   disabled/><strong>direct observation</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if  'semi-structured interview' in data.farm_entrance_means_verification %}checked{% endif %}
+                                                   disabled/><strong>semi-structured interview</strong>&nbsp;&nbsp;
+                                            <input type="checkbox"
+                                                   {% if 'compared to biosecurity design plan' in data.farm_entrance_means_verification %}checked{% endif %}
+                                                   disabled/><strong>compared to biosecurity design plan</strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Antibacterial usage</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+
+                                    <tr>
+                                        <td style="border-right:1px solid #333;"><strong>**37. Product name:</strong>
+                                        </td>
+                                        <td style="border-right:1px solid #333;"><strong>**38. Product name:</strong>
+                                        </td>
+                                        <td style="border-right:1px solid #333;"><strong>**39. Product name:</strong>
+                                        </td>
+                                        <td style="border-right:1px solid #333;"><strong>**40. Product name:</strong>
+                                        </td>
+                                        <td><strong>**41. Product name:</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-right:1px solid #333;">
+                                            &nbsp;<strong><u>{{ data.antibacterial_usages_product1 }}</u></strong></td>
+                                        <td style="border-right:1px solid #333;">&nbsp;<strong><u>{{ data.antibacterial_usages_product2 }}</u></strong></td>
+                                        <td style="border-right:1px solid #333;">&nbsp;<strong><u>{{ data.antibacterial_usages_product3 }}</u></strong></td>
+                                        <td style="border-right:1px solid #333;">&nbsp;<strong><u>{{ data.antibacterial_usages_product4 }}</u></strong></td>
+                                        <td>&nbsp;<strong><u>{{ data.antibacterial_usages_product5 }}</u></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td valign="top" style="border-right:1px solid #333;">
+
+
+                                            <p><strong>Source</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Salesman' %}checked{% endif %}
+                                                       disabled/><strong>Salesman</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Upazila Vet Hosp' %}checked{% endif %}
+                                                       disabled/><strong>Upazila Vet Hosp</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Market' %}checked{% endif %}
+                                                       disabled/><strong>Market</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Dealer' %}checked{% endif %}
+                                                       disabled/><strong>Dealer</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Vet' %}checked{% endif %}
+                                                       disabled/><strong>open place/bush</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product1 == 'Quack' %}checked{% endif %}
+                                                       disabled/><strong>Quack</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Purpose</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product1 == 'Infection/sick' %}checked{% endif %}
+                                                       disabled/><strong>Infection/sick</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product1 == 'Prevention' %}checked{% endif %}
+                                                       disabled/><strong>Prevention</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product1 == 'Faster growth/more eggs' %}checked{% endif %}
+                                                       disabled/><strong>Faster growth/more eggs</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Route</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product1 == 'Drinking water' %}checked{% endif %}
+                                                       disabled/><strong>Drinking water</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product1 == 'Feed' %}checked{% endif %}
+                                                       disabled/><strong>Feed</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product1 == 'Injection' %}checked{% endif %}
+                                                       disabled/><strong>Injection</strong><br>
+                                            </p>
+
+
+                                            <p><strong>Frequency</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'Twice a day' %}checked{% endif %}
+                                                       disabled/><strong>Twice a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'Once a day' %}checked{% endif %}
+                                                       disabled/><strong>Once a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'Once a week' %}checked{% endif %}
+                                                       disabled/><strong>Once a week</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'Once a month' %}checked{% endif %}
+                                                       disabled/><strong>Once a month</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'After illness' %}checked{% endif %}
+                                                       disabled/><strong>After illness</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product1 == 'Before winter' %}checked{% endif %}
+                                                       disabled/><strong>Before winter</strong><br>
+
+                                            </p>
+
+
+                                        </td>
+                                        <td valign="top" style="border-right:1px solid #333;">
+
+                                            <p><strong>Source</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Salesman' %}checked{% endif %}
+                                                       disabled/><strong>Salesman</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Upazila Vet Hosp' %}checked{% endif %}
+                                                       disabled/><strong>Upazila Vet Hosp</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Market' %}checked{% endif %}
+                                                       disabled/><strong>Market</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Dealer' %}checked{% endif %}
+                                                       disabled/><strong>Dealer</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Vet' %}checked{% endif %}
+                                                       disabled/><strong>open place/bush</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product2 == 'Quack' %}checked{% endif %}
+                                                       disabled/><strong>Quack</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Purpose</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product2 == 'Infection/sick' %}checked{% endif %}
+                                                       disabled/><strong>Infection/sick</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product2 == 'Prevention' %}checked{% endif %}
+                                                       disabled/><strong>Prevention</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product2 == 'Faster growth/more eggs' %}checked{% endif %}
+                                                       disabled/><strong>Faster growth/more eggs</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Route</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product2 == 'Drinking water' %}checked{% endif %}
+                                                       disabled/><strong>Drinking water</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product2 == 'Feed' %}checked{% endif %}
+                                                       disabled/><strong>Feed</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product2 == 'Injection' %}checked{% endif %}
+                                                       disabled/><strong>Injection</strong><br>
+                                            </p>
+
+
+                                            <p><strong>Frequency</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'Twice a day' %}checked{% endif %}
+                                                       disabled/><strong>Twice a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'Once a day' %}checked{% endif %}
+                                                       disabled/><strong>Once a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'Once a week' %}checked{% endif %}
+                                                       disabled/><strong>Once a week</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'Once a month' %}checked{% endif %}
+                                                       disabled/><strong>Once a month</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'After illness' %}checked{% endif %}
+                                                       disabled/><strong>After illness</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product2 == 'Before winter' %}checked{% endif %}
+                                                       disabled/><strong>Before winter</strong><br>
+
+                                            </p>
+
+
+                                        </td>
+                                        <td valign="top" style="border-right:1px solid #333;">
+                                            <p><strong>Source</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Salesman' %}checked{% endif %}
+                                                       disabled/><strong>Salesman</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Upazila Vet Hosp' %}checked{% endif %}
+                                                       disabled/><strong>Upazila Vet Hosp</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Market' %}checked{% endif %}
+                                                       disabled/><strong>Market</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Dealer' %}checked{% endif %}
+                                                       disabled/><strong>Dealer</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Vet' %}checked{% endif %}
+                                                       disabled/><strong>open place/bush</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product3 == 'Quack' %}checked{% endif %}
+                                                       disabled/><strong>Quack</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Purpose</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product3 == 'Infection/sick' %}checked{% endif %}
+                                                       disabled/><strong>Infection/sick</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product3 == 'Prevention' %}checked{% endif %}
+                                                       disabled/><strong>Prevention</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product3 == 'Faster growth/more eggs' %}checked{% endif %}
+                                                       disabled/><strong>Faster growth/more eggs</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Route</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product3 == 'Drinking water' %}checked{% endif %}
+                                                       disabled/><strong>Drinking water</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product3 == 'Feed' %}checked{% endif %}
+                                                       disabled/><strong>Feed</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product3 == 'Injection' %}checked{% endif %}
+                                                       disabled/><strong>Injection</strong><br>
+                                            </p>
+
+
+                                            <p><strong>Frequency</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'Twice a day' %}checked{% endif %}
+                                                       disabled/><strong>Twice a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'Once a day' %}checked{% endif %}
+                                                       disabled/><strong>Once a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'Once a week' %}checked{% endif %}
+                                                       disabled/><strong>Once a week</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'Once a month' %}checked{% endif %}
+                                                       disabled/><strong>Once a month</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'After illness' %}checked{% endif %}
+                                                       disabled/><strong>After illness</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product3 == 'Before winter' %}checked{% endif %}
+                                                       disabled/><strong>Before winter</strong><br>
+
+                                            </p>
+
+
+                                        </td>
+                                        <td valign="top" style="border-right:1px solid #333;">
+
+                                            <p><strong>Source</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Salesman' %}checked{% endif %}
+                                                       disabled/><strong>Salesman</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Upazila Vet Hosp' %}checked{% endif %}
+                                                       disabled/><strong>Upazila Vet Hosp</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Market' %}checked{% endif %}
+                                                       disabled/><strong>Market</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Dealer' %}checked{% endif %}
+                                                       disabled/><strong>Dealer</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Vet' %}checked{% endif %}
+                                                       disabled/><strong>open place/bush</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product4 == 'Quack' %}checked{% endif %}
+                                                       disabled/><strong>Quack</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Purpose</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product4 == 'Infection/sick' %}checked{% endif %}
+                                                       disabled/><strong>Infection/sick</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product4 == 'Prevention' %}checked{% endif %}
+                                                       disabled/><strong>Prevention</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product4 == 'Faster growth/more eggs' %}checked{% endif %}
+                                                       disabled/><strong>Faster growth/more eggs</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Route</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product4 == 'Drinking water' %}checked{% endif %}
+                                                       disabled/><strong>Drinking water</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product4 == 'Feed' %}checked{% endif %}
+                                                       disabled/><strong>Feed</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product4 == 'Injection' %}checked{% endif %}
+                                                       disabled/><strong>Injection</strong><br>
+                                            </p>
+
+
+                                            <p><strong>Frequency</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'Twice a day' %}checked{% endif %}
+                                                       disabled/><strong>Twice a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'Once a day' %}checked{% endif %}
+                                                       disabled/><strong>Once a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'Once a week' %}checked{% endif %}
+                                                       disabled/><strong>Once a week</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'Once a month' %}checked{% endif %}
+                                                       disabled/><strong>Once a month</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'After illness' %}checked{% endif %}
+                                                       disabled/><strong>After illness</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product4 == 'Before winter' %}checked{% endif %}
+                                                       disabled/><strong>Before winter</strong><br>
+
+                                            </p>
+                                        </td>
+                                        <td valign="top" style="border-right:1px solid #333;">
+                                            <p><strong>Source</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Salesman' %}checked{% endif %}
+                                                       disabled/><strong>Salesman</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Upazila Vet Hosp' %}checked{% endif %}
+                                                       disabled/><strong>Upazila Vet Hosp</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Market' %}checked{% endif %}
+                                                       disabled/><strong>Market</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Dealer' %}checked{% endif %}
+                                                       disabled/><strong>Dealer</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Vet' %}checked{% endif %}
+                                                       disabled/><strong>open place/bush</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_salesman_product5 == 'Quack' %}checked{% endif %}
+                                                       disabled/><strong>Quack</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Purpose</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product5 == 'Infection/sick' %}checked{% endif %}
+                                                       disabled/><strong>Infection/sick</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product5 == 'Prevention' %}checked{% endif %}
+                                                       disabled/><strong>Prevention</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_prevention_product5 == 'Faster growth/more eggs' %}checked{% endif %}
+                                                       disabled/><strong>Faster growth/more eggs</strong><br>
+
+                                            </p>
+
+
+                                            <p><strong>Route</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product5 == 'Drinking water' %}checked{% endif %}
+                                                       disabled/><strong>Drinking water</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product5 == 'Feed' %}checked{% endif %}
+                                                       disabled/><strong>Feed</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_usage_drinking_water_product5 == 'Injection' %}checked{% endif %}
+                                                       disabled/><strong>Injection</strong><br>
+                                            </p>
+
+
+                                            <p><strong>Frequency</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'Twice a day' %}checked{% endif %}
+                                                       disabled/><strong>Twice a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'Once a day' %}checked{% endif %}
+                                                       disabled/><strong>Once a day</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'Once a week' %}checked{% endif %}
+                                                       disabled/><strong>Once a week</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'Once a month' %}checked{% endif %}
+                                                       disabled/><strong>Once a month</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'After illness' %}checked{% endif %}
+                                                       disabled/><strong>After illness</strong><br>
+                                                <input type="checkbox"
+                                                       {% if  data.antibacterial_frequency_product5 == 'Before winter' %}checked{% endif %}
+                                                       disabled/><strong>Before winter</strong><br>
+
+                                            </p>
+
+
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>*42. Describe the farmer’s concerns. What would the farmer like assistance
+                                    with?</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+
+                                    <tr>
+                                        <td colspan="8"><p>&nbsp;{{ data.farmer_concern }}</p></td>
+                                    </tr>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td><strong>*43. Draw and take a photo to upload or list (bulleted/numbered) the
+                                    additional
+                                    Biosecurity Practices in place (if any</strong></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <td>
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #333;">
+
+                                    <tr>
+                                        <td colspan="8"><p>&nbsp;{{ data.image }}</p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                        <td>
+                                            <table width="100%" border="0" align="center" cellpadding="0"
+                                                   cellspacing="0"
+                                                   style="border:1px solid #333;">
+
+                                                <tr>
+                                                    <td colspan="4"
+                                                        style="border-bottom:1px solid #333;border-right:1px solid #333;">
+                                                        <strong>*FIELD
+                                                            STAFF</strong></td>
+                                                    <td colspan="2"
+                                                        style="border-bottom:1px solid #333;border-right:1px solid #333;">
+                                                        <strong>*Acknowledged
+                                                            by:</strong></td>
+                                                    <td colspan="2" style="border-bottom:1px solid #333;"><strong>*Approved
+                                                        by:</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border-right:1px solid #333;">1. Name:</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">1. Signature:</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">Name:</td>
+                                                    <td colspan="2">Name:</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.field_staff1 }}</strong></td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.ackknowlwdge_by }}</strong></td>
+                                                    <td colspan="2">&nbsp;<strong>{{ data.approved_by }}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border-right:1px solid #333;">2. Name:</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">2. Signature:</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">Signature:</td>
+                                                    <td colspan="2">Signature:</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;<strong>{{ data.field_staff2 }}</strong></td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;</td>
+                                                    <td colspan="2" style="border-right:1px solid #333;">&nbsp;</td>
+                                                    <td colspan="2">&nbsp;</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        </tr>
+                                    </table>
+
+        </div>
+    </div>
+
+
+{% endblock %}

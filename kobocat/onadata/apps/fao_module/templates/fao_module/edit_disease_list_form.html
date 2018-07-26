@@ -1,0 +1,70 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %} Edit Disease Form {% endblock %}
+        </title>
+    </head>
+{% endblock %}
+{% block content %}
+
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i> Disease Info Form
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <form class="horizontal-form" method="post" action="/fao_module/update_disease_list_form/"
+                  enctype="multipart/form-data">
+            <input type="hidden" id="disease_id" name="disease_id" value="{{ disease_id }}">
+                {% csrf_token %}
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Species Name">Species Name:</label>
+                                <select class="form-control" name="species" id="species" required>
+                                    <option value="">Select One</option>
+                                    {% for species_id,species_name in species %}
+                                        <option value="{{ species_id }}" {% if species_id == set_species_id %}selected{% endif %}>{{ species_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Disease Name">Disease Name:</label>
+                                <input class="form-control" type="text" name="disease_name" id="disease_name" value="{{ set_disease_name }}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger pull-left" id="submit" name="submit" type="submit"
+                                    data-original-title=""
+                                    title="">Submit
+                            </button>
+                            <button onclick="history.go(-1);" style="margin-left:10px;" type="button"
+                                    class="btn btn-info pull-left" data-original-title="" title="">Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+    <script type="text/javascript">
+
+    </script>
+
+{% endblock %}

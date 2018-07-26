@@ -1,0 +1,497 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="col-md-12">
+        <!--{% if request.session.profile_edited %}
+    <div class="alert alert-success">Your Profile has been updated successfully.</div>
+    {% endif %}-->
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-reorder"></i> General Account Settings
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class=" ui form horizontal-form" id="user_form" method="post" action="/usermodule/edit/{{ id }}/"
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="userchange" value="userchange">
+                    {% csrf_token %}
+                    <input type="hidden" name="country" id="country" value="BGD">
+                    <input type="hidden" name="{{ profile_form.employee_id.name }}" value="1">
+                    <input name="{{ profile_form.admin.name }}" unchecked type="checkbox" style="display:none">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.username.id_for_label }}">Username:</label>
+                                    <input type="text" name="{{ user_form.username.name }}" class="form-control"
+                                           value="{{ user_form.username.value }}" readonly>
+                                    <span class="help-block">{{ user_form.username.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.first_name.id_for_label }}">Firstname:</label>
+                                    <input type="text" name="{{ user_form.first_name.name }}" class="form-control"
+                                           value="{{ user_form.first_name.value }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.last_name.id_for_label }}">Lastname:</label>
+                                    <input type="text" name="{{ user_form.last_name.name }}" class="form-control"
+                                           value="{{ user_form.last_name.value }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.email.id_for_label }}">Email:</label>
+                                    <input type="email" name="{{ user_form.email.name }}" class="form-control"
+                                           value="{{ user_form.email.value }}"
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+                                    <span class="help-block">{{ user_form.email.errors.as_text }}</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="ui-widget form-group field">
+                                    <label>Organization name:</label>
+                                    <select class="ui fluid search dropdown" id="{{ profile_form.organisation_name.id_for_label }}"
+                                            name="organisation_name" >
+                                        {% for m,n in profile_form.fields.organisation_name.choices %}
+                                            <option value="{{ m }}" {% if profile_form.organisation_name.value == m %}
+                                                    selected{% endif %}>{{ n }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="help-block">{{ profile_form.organisation_name.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mobile No (format: 01xxxxxxxxx):</label>
+                                    <input type="tel" name="mobile_no" id="mobile_no" pattern="01[0-9]{9}$"
+                                           class="form-control" value="{{ profile_form.mobile_no.value }}" required>
+                                    <span class="help-block">{{ profile_form.mobile_no.errors.as_text }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="ui-widget form-group field">
+                                    <label>Designation:</label>
+                                    <select class="ui fluid search dropdown" id="{{ profile_form.designation.id_for_label }}"
+                                            name="designation" class="form-control">
+                                        {% for m,n in profile_form.fields.designation.choices %}
+                                            <option value="{{ m }}" {% if profile_form.designation.value == m %}
+                                                    selected{% endif %}>{{ n }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="help-block">{{ profile_form.designation.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>BVC Officer Registration No:</label>
+                                    <input type="text" name="bvc_officer_registration_no"
+                                           id="bvc_officer_registration_no"
+                                           value="{{ profile_form.bvc_officer_registration_no.value }}"
+                                           class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+{#                            <div class="col-md-6">#}
+{#                                <div class="form-group">#}
+{#                                    <label>Organization Type:</label>#}
+{#                                    <select id="organization_type" name="organization_type" onchange="show_divs(this)"#}
+{#                                            class="form-control" required>#}
+{#                                        {% if  profile_form.organization_type.value == 1111 %}#}
+{#                                            <option value="1234">CO</option>#}
+{#                                            <option value="1111" selected>LO</option>#}
+{#                                            <option value="2222">LAB</option>#}
+{#                                        {% endif %}#}
+{#                                        {% if  profile_form.organization_type.value == 2222 %}#}
+{#                                            <option value="1234">CO</option>#}
+{#                                            <option value="1111">LO</option>#}
+{#                                            <option value="2222" selected>LAB</option>#}
+{#                                        {% endif %}#}
+{#                                        {% if  profile_form.organization_type.value == 1234 %}#}
+{#                                            <option value="1234" selected>CO</option>#}
+{#                                            <option value="1111">LO</option>#}
+{#                                            <option value="2222">LAB</option>#}
+{#                                        {% endif %}#}
+{#                                    </select>#}
+{#                                    <span class="help-block">{{ profile_form.organization_type.errors.as_text }}</span>#}
+{#                                </div>#}
+{#                            </div>#}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>DLS Officer Registration No:</label>
+                                    <input type="text" name="dls_officer_registration_no"
+                                           id="dls_officer_registration_no"
+                                           value="{{ profile_form.dls_officer_registration_no.value }}"
+                                           class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="test"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn red pull-right">Submit</button>
+                        <button onclick="history.go(-1);" style="margin-right:10px;" type="button"
+                                class="btn default pull-right">Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block additional-javascript %}
+
+    <!--<script type="text/javascript" src="/static/js/jquery.searchable-ie-1.1.0.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/static/js/usermodule_userprofile.js"></script>    -->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script>
+$('.ui.dropdown').dropdown({fullTextSearch: true,showOnFocus:false,forceSelection:false});
+    $('.ui.form').form({
+    fields: {
+      organisation_name: 'empty',
+        designation:'empty'
+    }
+    });
+{#        var set_node_id = {{ set_node_id | safe }};#}
+{#        var edit_set_html = "";#}
+{##}
+{#        if (set_node_id == -1) {#}
+{#            edit_set_html = "<input type=\"hidden\" name=\"node_id\" id=\"node_id\" value=\"-1\">";#}
+{#        }#}
+{#        else if (set_node_id == 1 || set_node_id == 2) {#}
+{#            edit_set_html = "<div class=\"row\">\n" +#}
+{#                "        <div class=\"col-md-6\">\n" +#}
+{#                "            <div class=\"form-group\">\n" +#}
+{#                "                <label>LAB:</label>\n" +#}
+{#                "                <select id=\"node_id\"\n" +#}
+{#                "                        name=\"node_id\" class=\"form-control\">\n" +#}
+{#                "                    {% if set_node_id == 1 %}\n"+#}
+{#                    "                        <option value=\"1\" selected>BLRI</option>\n"+#}
+{#                    "                        <option value=\"2\">CDIL</option>\n"+#}
+{#                    "                    {% endif %}\n" +#}
+{#                "                    {% if set_node_id == 2 %}\n"+#}
+{#                    "                        <option value=\"1\">BLRI</option>\n"+#}
+{#                    "                        <option value=\"2\" selected>CDIL</option>\n"+#}
+{#                    "                    {% endif %}\n" +#}
+{#                "                </select>\n" +#}
+{#                "                <span id=\"lab_validate\" class=\"help-block\">LAB Not Selected</span>\n" +#}
+{#                "            </div>\n" +#}
+{#                "        </div>\n" +#}
+{#                "    </div>";#}
+{#        }#}
+{#        else {#}
+{#            edit_set_html = "<div class=\"row\" id=\"LO\">\n" +#}
+{#                "        <div class=\"col-md-4\">\n" +#}
+{#                "            <div class=\"form-group\">\n" +#}
+{#                "                <label for=\"Division\">Division:</label>\n" +#}
+{#                "                <select class=\"form-control\" name=\"division\" id=\"division\"\n" +#}
+{#                "                        onchange=\"load_district(this)\">\n" +#}
+{#                "                    <option value=\"{{ set_division_id }}\">{{ set_division_name }}</option>\n" +#}
+{#                "                    {% for div_value,div_name in division %}\n"+#}
+{#                    "                        {% if div_value != set_division_id %}\n"+#}
+{#                        "                            <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"+#}
+{#                        "                        {% endif %}\n"+#}
+{#                    "                    {% endfor %}\n" +#}
+{#                "                </select>\n" +#}
+{#                "                <span id=\"div_validate\" class=\"help-block\">Division Not Selected</span>\n" +#}
+{#                "            </div>\n" +#}
+{#                "        </div>\n" +#}
+{#                "        <div class=\"col-md-4\">\n" +#}
+{#                "            <div class=\"form-group\">\n" +#}
+{#                "                <label for=\"District\">District:</label>\n" +#}
+{#                "                <select class=\"form-control\" name=\"district\" id=\"district\"\n" +#}
+{#                "                        onchange=\"load_upazilla(this)\">\n" +#}
+{#                "                    <option value=\"{{ set_district_id }}\">{{ set_district_name }}</option>\n" +#}
+{#                "                    {% for dist_value,dist_name in district %}\n"+#}
+{#                    "                        {% if set_district_id != dist_value %}\n"+#}
+{#                        "                            <option value=\"{{ dist_value }}\">{{ dist_name }}</option>\n"+#}
+{#                        "                        {% endif %}\n"+#}
+{#                    "                    {% endfor %}\n" +#}
+{#                "                </select>\n" +#}
+{#                "                <span id=\"dist_validate\" class=\"help-block\">District Not Selected</span>\n" +#}
+{#                "            </div>\n" +#}
+{#                "        </div>\n" +#}
+{#                "        <div class=\"col-md-4\">\n" +#}
+{#                "            <div class=\"form-group\">\n" +#}
+{#                "                <label for=\"Upazilla\">Upazilla:</label>\n" +#}
+{#                "                <select class=\"form-control\" name=\"node_id\" id=\"node_id\">\n" +#}
+{#                "                    <option value=\"{{ set_node_id }}\">{{ set_node_name }}</option>\n" +#}
+{#                "                    {% for upz_value,upz_name in upazilla %}\n"+#}
+{#                    "                        {% if set_node_id != upz_value %}\n"+#}
+{#                        "                            <option value=\"{{ upz_value }}\">{{ upz_name }}</option>\n"+#}
+{#                        "                        {% endif %}\n"+#}
+{#                    "                    {% endfor %}\n" +#}
+{#                "                </select>\n" +#}
+{#                "                <span id=\"upz_validate\" class=\"help-block\">Upazilla Not Selected</span>\n" +#}
+{#                "            </div>\n" +#}
+{#                "        </div>\n" +#}
+{#                "    </div>";#}
+{##}
+{#        }#}
+{##}
+{##}
+{#        $('#test').html(edit_set_html);#}
+{#        $('#div_validate').hide();#}
+{#        $('#dist_validate').hide();#}
+{#        $('#upz_validate').hide();#}
+{#        $('#lab_validate').hide();#}
+{##}
+{#        var div_LAB = "<div class=\"row\" >\n" +#}
+{#            "                            <div class=\"col-md-6\">\n" +#}
+{#            "                                <div class=\"form-group\">\n" +#}
+{#            "                                    <label>LAB:</label>\n" +#}
+{#            "                                    <select id=\"node_id\"\n" +#}
+{#            "                                            name=\"node_id\"  class=\"form-control\" >\n" +#}
+{#            "                                        <option value=\"\">Select One</option>\n" +#}
+{#            "                                        <option value=\"1\">BLRI</option>\n" +#}
+{#            "                                        <option value=\"2\">CDIL</option>\n" +#}
+{#            "\n" +#}
+{#            "                                    </select>\n" +#}
+{#            "                                    <span id=\"lab_validate\" class=\"help-block\">LAB Not Selected</span>\n" +#}
+{#            "                                </div>\n" +#}
+{#            "                            </div>\n" +#}
+{#            "                        </div>";#}
+{##}
+{#        var div_LO = "<div class=\"row\" id=\"LO\">\n" +#}
+{#            "                            <div class=\"col-md-4\">\n" +#}
+{#            "                                <div class=\"form-group\">\n" +#}
+{#            "                                    <label for=\"Division\">Division:</label>\n" +#}
+{#            "                                    <select class=\"form-control\" name=\"division\" id=\"division\"\n" +#}
+{#            "                                            onchange=\"load_district(this)\">\n" +#}
+{#            "                                        <option value=\"\">Select One</option>\n" +#}
+{#            "                                        {% for div_value,div_name in division %}\n"+#}
+{#                "                                            <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"#}
+{#                +#}
+{#                "                                        {% endfor %}\n" +#}
+{#            "                                    </select>\n" +#}
+{#            "                                    <span id=\"div_validate\" class=\"help-block\">Division Not Selected</span>\n" +#}
+{#            "                                </div>\n" +#}
+{#            "                            </div>\n" +#}
+{#            "                            <div class=\"col-md-4\">\n" +#}
+{#            "                                <div class=\"form-group\">\n" +#}
+{#            "                                    <label for=\"District\">District:</label>\n" +#}
+{#            "                                    <select class=\"form-control\" name=\"district\" id=\"district\"\n" +#}
+{#            "                                            onchange=\"load_upazilla(this)\">\n" +#}
+{#            "                                        <option value=\"\">Select One</option>\n" +#}
+{#            "                                    </select>\n" +#}
+{#            "                                    <span id=\"dist_validate\" class=\"help-block\">District Not Selected</span>\n" +#}
+{#            "                                </div>\n" +#}
+{#            "                            </div>\n" +#}
+{#            "                            <div class=\"col-md-4\">\n" +#}
+{#            "                                <div class=\"form-group\">\n" +#}
+{#            "                                    <label for=\"Upazilla\">Upazilla:</label>\n" +#}
+{#            "                                    <select class=\"form-control\" name=\"node_id\" id=\"node_id\" >\n" +#}
+{#            "                                        <option value=\"\">Select One</option>\n" +#}
+{#            "                                    </select>\n" +#}
+{#            "                                    <span id=\"upz_validate\" class=\"help-block\">Upazilla Not Selected</span>\n" +#}
+{#            "                                </div>\n" +#}
+{#            "                            </div>\n" +#}
+{#            "                        </div>";#}
+
+        $('#match_pass').hide();
+        $('#confirm_password,#password').keyup(function () {
+            if ($('#password').val() != $('#confirm_password').val()) {
+
+                $('#match_pass').show();
+            }
+            else $('#match_pass').hide();
+        });
+
+
+{#        $('#user_form').on('submit', function (e) {#}
+
+{#            var node_id_val = parseInt($('select[name=node_id]').val());#}
+{#            var org_type = parseInt($('select[name=organization_type]').val());#}
+{#            if (org_type == 1111) {#}
+{#                if ($('select[name=division]').val() == "")#}
+{#                    $('#div_validate').show();#}
+{#                else $('#div_validate').hide();#}
+{#                if ($('select[name=district]').val() == "")#}
+{#                    $('#dist_validate').show();#}
+{#                else $('#dist_validate').hide();#}
+{#                if ($('select[name=node_id]').val() == "")#}
+{#                    $('#upz_validate').show();#}
+{#                else $('#upz_validate').hide();#}
+{#                if ($('select[name=division]').val() != "" && $('select[name=district]').val() != "" && $('select[name=node_id]').val() != "") {#}
+{#                }#}
+{#                else e.preventDefault();#}
+{#            }#}
+{##}
+{#            else if (org_type == 2222) {#}
+{#                if ($('select[name=node_id]').val() == "")#}
+{#                    $('#lab_validate').show();#}
+{#                else $('#lab_validate').hide();#}
+{#                if ($('select[name=node_id]').val() != "") {#}
+{#                }#}
+{#                else e.preventDefault();#}
+{#            }#}
+
+{#            if ($('#password').val() != $('#confirm_password').val()) {#}
+{#                e.preventDefault();#}
+{#            }#}
+{##}
+{#        });#}
+
+{##}
+{#        var set;#}
+{##}
+{#        function show_types(object) {#}
+{#            set = parseInt(object.value);#}
+{#            if (parseInt(object.value) == 1111) {#}
+{#                $('#LAB').hide();#}
+{#                $('#LO').fadeIn();#}
+{#            }#}
+{#            else if (parseInt(object.value) == 2222) {#}
+{#                $('#LO').hide();#}
+{#                $('#LAB').fadeIn();#}
+{#            }#}
+{#            else {#}
+{#                $('#LO').hide();#}
+{#                $('#LAB').hide();#}
+{#            }#}
+{#        }#}
+{##}
+{#        function show_divs(object) {#}
+{#            if (parseInt(object.value) == 1111) {#}
+{#                $('#test').html(div_LO);#}
+{#                $('#div_validate').hide();#}
+{#                $('#dist_validate').hide();#}
+{#                $('#upz_validate').hide();#}
+{##}
+{#            }#}
+{#            else if (parseInt(object.value) == 2222) {#}
+{#                $('#test').html(div_LAB);#}
+{#                $('#lab_validate').hide();#}
+{#            }#}
+{#            else if (parseInt(object.value) == 1234) {#}
+{#                $('#test').html("<input type=\"hidden\" name=\"node_id\" id=\"node_id\" value=\"-1\">")#}
+{#                $('#div_validate').hide();#}
+{#                $('#dist_validate').hide();#}
+{#                $('#upz_validate').hide();#}
+{#                $('#lab_validate').hide();#}
+{#            }#}
+{#            else {#}
+{#                $('#test').html("");#}
+{#            }#}
+{#        }#}
+{##}
+{#        function ajaxcall() {#}
+{#            $.ajaxSetup({#}
+{#                beforeSend: function (xhr, settings) {#}
+{#                    function getCookie(name) {#}
+{#                        var cookieValue = null;#}
+{#                        if (document.cookie && document.cookie != '') {#}
+{#                            var cookies = document.cookie.split(';');#}
+{#                            for (var i = 0; i < cookies.length; i++) {#}
+{#                                var cookie = jQuery.trim(cookies[i]);#}
+{#                                // Does this cookie string begin with the name we want?#}
+{#                                if (cookie.substring(0, name.length + 1) == (name + '=')) {#}
+{#                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+{#                                    break;#}
+{#                                }#}
+{#                            }#}
+{#                        }#}
+{#                        return cookieValue;#}
+{#                    }#}
+{##}
+{#                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {#}
+{#                        // Only send the token to relative URLs i.e. locally.#}
+{#                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));#}
+{#                    }#}
+{#                }#}
+{#            });#}
+{#        }#}
+{##}
+{##}
+{#        function load_district(div_object) {#}
+{#            ajaxcall();#}
+{#            div = parseInt(div_object.value);#}
+{#            $.ajax({#}
+{#                url: '/usermodule/getDistricts/',#}
+{#                type: 'POST',#}
+{#                dataType: 'json',#}
+{#                data: {'div': div},#}
+{#                success: function (result) {#}
+{#                    var html_code = "<option value=\"\">Select One</option>";#}
+{#                    for (i = 0; i < result.length; i++) {#}
+{##}
+{#                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";#}
+{#                    }#}
+{#                    $('#district').html(html_code);#}
+{#                    $('#upazilla').html("<option value=\"\">Select One</option>");#}
+{#                }#}
+{#            });#}
+{#        }#}
+
+
+{#        function load_upazilla(dist_object) {#}
+{#            ajaxcall();#}
+{#            dist = parseInt(dist_object.value);#}
+{#            $.ajax({#}
+{#                url: '/usermodule/getUpazilas/',#}
+{#                type: 'POST',#}
+{#                dataType: 'json',#}
+{#                data: {'dist': dist},#}
+{#                success: function (result) {#}
+{#                    var html_code = "<option value=\"\">Select One</option>";#}
+{#                    for (i = 0; i < result.length; i++) {#}
+{##}
+{#                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";#}
+{#                    }#}
+{#                    $('#node_id').html(html_code);#}
+{#                }#}
+{#            });#}
+{#        }#}
+
+
+    </script>
+{% endblock %}
+
+{% block additional-headers %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <head>
+        <title>
+            {% block title %} Edit User {% endblock %}
+        </title>
+    </head>
+    <style>
+        .data-table-container table {
+            clear: both;
+            display: table !important;
+            overflow-x: auto;
+            width: 98% !important;
+        }
+
+        .highlight {
+            background-color: #D9EDF7;
+        }
+
+        .table th, .table td {
+            border: 1px solid #dddddd !important;
+        }
+
+
+    </style>
+
+{% endblock %}

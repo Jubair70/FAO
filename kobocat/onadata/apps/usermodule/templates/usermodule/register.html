@@ -1,0 +1,411 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="col-md-12">
+        <div class="portlet box red">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-reorder"></i> Sign Up
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <form class=" ui form horizontal-form" id="user_form" method="post"
+                      action="/usermodule/register/"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="country" id="country" value="BGD">
+                    <input type="hidden" name="{{ profile_form.employee_id.name }}"  value="1">
+                    <input name="{{ profile_form.admin.name }}" checked type="checkbox" style="display:none">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.username.id_for_label }}">Username:</label>
+                                    <input type="text" name="{{ user_form.username.name }}" class="form-control" required>
+                                    <span class="help-block">{{ user_form.username.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.first_name.id_for_label }}">First Name:</label>
+                                    <input type="text" name="{{ user_form.first_name.name }}" class="form-control" required>
+                                    <span class="help-block">{{ user_form.first_name.errors.as_text }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.last_name.id_for_label }}">Last Name:</label>
+                                    <input type="text" name="{{ user_form.last_name.name }}" class="form-control" required>
+                                    <span class="help-block">{{ user_form.last_name.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.email.id_for_label }}">Email:</label>
+                                    <input type="email" name="{{ user_form.email.name }}" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+                                    <span class="help-block">{{ user_form.email.errors.as_text }}</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.password.id_for_label }}">Password:</label>
+                                    <input type="password" name="{{ user_form.password.name }}" id="password" class="form-control" required>
+                                    <span class="help-block">{{ user_form.password.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="{{ user_form.password_repeat.id_for_label }}">Confirm Password:</label>
+                                    <input type="password" name="{{ user_form.password_repeat.name }}" id="confirm_password"
+                                           class="form-control" required>
+                                    <span id="match_pass" class="help-block">Password Not Match</span>
+                                    <span class="help-block">{{ user_form.password_repeat.errors.as_text }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="ui-widget form-group field">
+                                    <label>Organization Name:</label>
+                                    <select class="ui fluid search dropdown" id="{{ profile_form.organisation_name.id_for_label }}"
+                                            name="organisation_name">
+                                        {% for m,n in profile_form.fields.organisation_name.choices %}
+                                            <option value="{{ m }}">{{ n }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="help-block">{{ profile_form.organisation_name.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mobile No (format: 01xxxxxxxxx):</label>
+                                    <input type="tel" name="mobile_no" id="mobile_no" pattern="01[0-9]{9}$"
+                                           class="form-control" required>
+                                    <span class="help-block">{{ profile_form.mobile_no.errors.as_text }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="ui-widget form-group field">
+                                    <label>Designation:</label>
+                                    <select class="ui fluid search dropdown" id="{{ profile_form.designation.id_for_label }}"
+                                            name="designation">
+                                        {% for m,n in profile_form.fields.designation.choices %}
+                                            <option value="{{ m }}">{{ n }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="help-block">{{ profile_form.designation.errors.as_text }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>BVC Registration No:</label>
+                                    <input type="text" name="bvc_officer_registration_no"
+                                           id="bvc_officer_registration_no" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+{#                            <div class="col-md-6">#}
+{#                                <div class="form-group">#}
+{#                                    <label>Organization Type:</label>#}
+{#                                    <select id="organization_type" name="organization_type" onchange="show_divs(this)"#}
+{#                                            class="form-control" required>#}
+{#                                        <option value="">Select One</option>#}
+{#                                        <option value="1234">CO</option>#}
+{#                                        <option value="1111">LO</option>#}
+{#                                        <option value="2222">LAB</option>#}
+{#                                    </select>#}
+{#                                        <span class="help-block">{{ profile_form.organization_type.errors.as_text }}</span>#}
+{#                                </div>#}
+{#                            </div>#}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>DLS Registration No:</label>
+                                    <input type="text" name="dls_officer_registration_no"
+                                           id="dls_officer_registration_no" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="test"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn red pull-right">Submit</button>
+                        <button onclick="history.go(-1);" style="margin-right:10px;" type="button"
+                                class="btn default pull-right">Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional-javascript %}
+
+    <!-- <script type="text/javascript" src="/static/js/jquery.searchable-ie-1.1.0.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/static/js/usermodule_userprofile.js"></script>    -->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script>
+    $('.ui.dropdown').dropdown({fullTextSearch: true,showOnFocus:false,forceSelection:false});
+    $('.ui.form').form({
+    fields: {
+      organisation_name: 'empty',
+        designation:'empty'
+    }
+    });
+{#    var div_LAB = "<div class=\"row\" >\n" +#}
+{#        "                            <div class=\"col-md-6\">\n" +#}
+{#        "                                <div class=\"form-group\">\n" +#}
+{#        "                                    <label>LAB:</label>\n" +#}
+{#        "                                    <select id=\"node_id\"\n" +#}
+{#        "                                            name=\"node_id\"  class=\"form-control\" >\n" +#}
+{#        "                                        <option value=\"\">Select One</option>\n" +#}
+{#        "                                        <option value=\"1\">BLRI</option>\n" +#}
+{#        "                                        <option value=\"2\">CDIL</option>\n" +#}
+{#        "\n" +#}
+{#        "                                    </select>\n" +#}
+{#        "                                    <span id=\"lab_validate\" class=\"help-block\">LAB Not Selected</span>\n" +#}
+{#        "                                </div>\n" +#}
+{#        "                            </div>\n" +#}
+{#        "                        </div>";#}
+{##}
+{#    var div_LO = "<div class=\"row\" id=\"LO\">\n" +#}
+{#        "                            <div class=\"col-md-4\">\n" +#}
+{#        "                                <div class=\"form-group\">\n" +#}
+{#        "                                    <label for=\"Division\">Division:</label>\n" +#}
+{#        "                                    <select class=\"form-control\" name=\"division\" id=\"division\"\n" +#}
+{#        "                                            onchange=\"load_district(this)\">\n" +#}
+{#        "                                        <option value=\"\">Select One</option>\n" +#}
+{#        "                                        {% for div_value,div_name in division %}\n"+#}
+{#            "                                            <option value=\"{{ div_value }}\">{{ div_name }}</option>\n"+#}
+{#            "                                        {% endfor %}\n" +#}
+{#        "                                    </select>\n" +#}
+{#        "                                    <span id=\"div_validate\" class=\"help-block\">Division Not Selected</span>\n" +#}
+{#        "                                </div>\n" +#}
+{#        "                            </div>\n" +#}
+{#        "                            <div class=\"col-md-4\">\n" +#}
+{#        "                                <div class=\"form-group\">\n" +#}
+{#        "                                    <label for=\"District\">District:</label>\n" +#}
+{#        "                                    <select class=\"form-control\" name=\"district\" id=\"district\"\n" +#}
+{#        "                                            onchange=\"load_upazilla(this)\">\n" +#}
+{#        "                                        <option value=\"\">Select One</option>\n" +#}
+{#        "                                    </select>\n" +#}
+{#        "                                    <span id=\"dist_validate\" class=\"help-block\">District Not Selected</span>\n" +#}
+{#        "                                </div>\n" +#}
+{#        "                            </div>\n" +#}
+{#        "                            <div class=\"col-md-4\">\n" +#}
+{#        "                                <div class=\"form-group\">\n" +#}
+{#        "                                    <label for=\"Upazilla\">Upazilla:</label>\n" +#}
+{#        "                                    <select class=\"form-control\" name=\"node_id\" id=\"node_id\" >\n" +#}
+{#        "                                        <option value=\"\">Select One</option>\n" +#}
+{#        "                                    </select>\n" +#}
+{#        "                                    <span id=\"upz_validate\" class=\"help-block\">Upazilla Not Selected</span>\n" +#}
+{#        "                                </div>\n" +#}
+{#        "                            </div>\n" +#}
+{#        "                        </div>";#}
+
+       $('#match_pass').hide();
+        $('#confirm_password,#password').keyup(function () {
+            if ($('#password').val() != $('#confirm_password').val()) {
+
+                $('#match_pass').show();
+            }
+
+            else $('#match_pass').hide();
+        });
+
+
+        $('#user_form').on('submit', function (e) {
+
+{#            var node_id_val = parseInt($('select[name=node_id]').val());#}
+{#            var org_type = parseInt($('select[name=organization_type]').val());#}
+{#            if(org_type == 1111){#}
+{#                if($('select[name=division]').val()=="")#}
+{#                    $('#div_validate').show();#}
+{#                else $('#div_validate').hide();#}
+{#                if($('select[name=district]').val()=="")#}
+{#                    $('#dist_validate').show();#}
+{#                else $('#dist_validate').hide();#}
+{#                if($('select[name=node_id]').val()=="")#}
+{#                    $('#upz_validate').show();#}
+{#                else $('#upz_validate').hide();#}
+{#                if($('select[name=division]').val()!="" && $('select[name=district]').val()!="" &&$('select[name=node_id]').val()!="")#}
+{#                {}#}
+{#                 else e.preventDefault();#}
+{#            }#}
+{##}
+{#            else if(org_type == 2222){#}
+{#                if($('select[name=node_id]').val()=="")#}
+{#                     $('#lab_validate').show();#}
+{#                else  $('#lab_validate').hide();#}
+{#                if($('select[name=node_id]').val()!=""){}#}
+{#                else e.preventDefault();#}
+{#            }#}
+
+            if ($('#password').val() != $('#confirm_password').val()) {
+                e.preventDefault();
+            }
+
+        });
+
+
+{#        var set;#}
+{#        function show_types(object) {#}
+{#            set = parseInt(object.value);#}
+{#            if (parseInt(object.value) == 1111) {#}
+{#                $('#LAB').hide();#}
+{#                $('#LO').fadeIn();#}
+{#            }#}
+{#            else if (parseInt(object.value) == 2222) {#}
+{#                $('#LO').hide();#}
+{#                $('#LAB').fadeIn();#}
+{#            }#}
+{#            else if(parseInt(object.value)==1234){#}
+{#                $('#LO').hide();#}
+{#                $('#LAB').hide();#}
+{##}
+{#            }#}
+{#            else {#}
+{#                $('#LO').hide();#}
+{#                $('#LAB').hide();#}
+{#            }#}
+{#        }#}
+
+{#        function show_divs(object) {#}
+{#            if(parseInt(object.value)==1111)#}
+{#            {#}
+{#                $('#test').html(div_LO);#}
+{#                $('#div_validate').hide();#}
+{#                $('#dist_validate').hide();#}
+{#                $('#upz_validate').hide();#}
+{##}
+{#            }#}
+{#            else if(parseInt(object.value)==2222) {#}
+{#                $('#test').html(div_LAB);#}
+{#                $('#lab_validate').hide();#}
+{#            }#}
+{#            else if(parseInt(object.value)==1234) {#}
+{#                $('#test').html("<input type=\"hidden\" name=\"node_id\" id=\"node_id\" value=\"-1\">")#}
+{#                $('#div_validate').hide();#}
+{#                $('#dist_validate').hide();#}
+{#                $('#upz_validate').hide();#}
+{#                $('#lab_validate').hide();#}
+{#            }#}
+{#            else {#}
+{#                $('#test').html("");#}
+{#            }#}
+{#        }#}
+
+{#        function ajaxcall() {#}
+{#            $.ajaxSetup({#}
+{#                beforeSend: function (xhr, settings) {#}
+{#                    function getCookie(name) {#}
+{#                        var cookieValue = null;#}
+{#                        if (document.cookie && document.cookie != '') {#}
+{#                            var cookies = document.cookie.split(';');#}
+{#                            for (var i = 0; i < cookies.length; i++) {#}
+{#                                var cookie = jQuery.trim(cookies[i]);#}
+{#                                // Does this cookie string begin with the name we want?#}
+{#                                if (cookie.substring(0, name.length + 1) == (name + '=')) {#}
+{#                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+{#                                    break;#}
+{#                                }#}
+{#                            }#}
+{#                        }#}
+{#                        return cookieValue;#}
+{#                    }#}
+{##}
+{#                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {#}
+{#                        // Only send the token to relative URLs i.e. locally.#}
+{#                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));#}
+{#                    }#}
+{#                }#}
+{#            });#}
+{#        }#}
+{##}
+{##}
+{#        function load_district(div_object) {#}
+{#            ajaxcall();#}
+{#            div = parseInt(div_object.value);#}
+{#            $.ajax({#}
+{#                url: '/usermodule/getDistricts/',#}
+{#                type: 'POST',#}
+{#                dataType: 'json',#}
+{#                data: {'div': div},#}
+{#                success: function (result) {#}
+{#                    var html_code = "<option value=\"\">Select One</option>";#}
+{#                    for (i = 0; i < result.length; i++) {#}
+{##}
+{#                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";#}
+{#                    }#}
+{#                    $('#district').html(html_code);#}
+{#                    $('#upazilla').html("<option value=\"\">Select One</option>");#}
+{#                }#}
+{#            });#}
+{#        }#}
+{##}
+{##}
+{#        function load_upazilla(dist_object) {#}
+{#            ajaxcall();#}
+{#            dist = parseInt(dist_object.value);#}
+{#            $.ajax({#}
+{#                url: '/usermodule/getUpazilas/',#}
+{#                type: 'POST',#}
+{#                dataType: 'json',#}
+{#                data: {'dist': dist},#}
+{#                success: function (result) {#}
+{#                    var html_code = "<option value=\"\">Select One</option>";#}
+{#                    for (i = 0; i < result.length; i++) {#}
+{##}
+{#                        html_code += "<option value=\"" + result[i].value + "\"> " + result[i].name + "</option>";#}
+{#                    }#}
+{#                    $('#node_id').html(html_code);#}
+{#                }#}
+{#            });#}
+{#        }#}
+
+
+    </script>
+{% endblock %}
+
+{% block additional-headers %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <head>
+        <title>
+            {% block title %} Register User {% endblock %}
+        </title>
+    </head>
+    <style>
+        .data-table-container table {
+            clear: both;
+            display: table !important;
+            overflow-x: auto;
+            width: 98% !important;
+        }
+
+        .highlight {
+            background-color: #D9EDF7;
+        }
+
+        .table th, .table td {
+            border: 1px solid #dddddd !important;
+        }
+
+        tr:hover {
+            background-color: #ffff99;
+        }
+
+    </style>
+
+{% endblock %}

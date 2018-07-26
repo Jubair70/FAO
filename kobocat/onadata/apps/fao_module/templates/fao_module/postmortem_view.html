@@ -1,0 +1,71 @@
+{% extends 'base_test.html' %}
+{% load i18n %}
+{% load app_filters %}
+{% block additional-headers %}
+    <head>
+        <title>
+            {% block title %} Postmortem Form  {% endblock %}
+        </title>
+    </head>
+    <style>
+        td {
+            padding: 4px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="portlet box red">
+        <div class="portlet-title">
+            <div class="caption"><i class="fa fa-adn"></i>Postmortem Form</div>
+        </div>
+        <div class="portlet-body">
+            <table id="registry_table" class="table table-bordered table-striped">
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}
+{% block additional-javascript %}
+
+    <script>
+        var form_label_map = {
+        "village": "Village",
+        "sick": "Sick",
+        "remarks": "Remarks",
+        "father_name": "Father's Name",
+        "herd": "Herd",
+        "treatment_treatment": "Treatment",
+        "dead": "Dead",
+        "owner_complain": "Owner's complain",
+        "species_type": "Species",
+        "owner_name": "Owner's Name",
+        "advice_suggestions": "Advice/Suggestions",
+        "address":"Address",
+        "xunion": "Union",
+        "date": "Date",
+        "mobile": "Mobile no",
+        "tentative_diagnosis": "Tentative Diagnosis",
+        "flock": "Flock",
+        "number_sample":"Number of Samples",
+        "sample_type":"Sample Type",
+        "sample_history": "Sample History",
+        "postmortem_findings": "Postmortem Findings",
+            "division" : "Division",
+            "district" : "District",
+            "upazila" : "Upazila",
+            "username" : "Username"
+    };
+        var data = {{ data |safe }}[0];
+        console.log(data)
+        var tbody = ''
+        for (each in data) {
+            if (data[each])
+                tbody += '<tr><td class="td-center">' + form_label_map[each] + '</td><td class="td-center">' + data[each] + '</td></tr>';
+            // else tbody+= '<tr><td>' + form_label_map[each] + '</td><td>No Data Available</td></tr>';
+        }
+        $("#registry_table").find('tbody').html(tbody);
+    </script>
+{% endblock %}
